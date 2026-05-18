@@ -140,7 +140,7 @@ body{font-family:'Noto Sans TC',sans-serif;background:var(--bg);color:var(--text
 .cd{aspect-ratio:1;display:flex;align-items:center;justify-content:center;border-radius:var(--rs);font-size:13px;border:2px solid transparent;position:relative;font-weight:500}
 .cd.empty{opacity:0;pointer-events:none}
 .cd.today{border-color:var(--accent)!important}
-.cd.pain-0{background:var(--p0-bg);color:var(--p0-t)}
+/* pain-0 不顯示顏色（無記錄＝不痛） */
 .cd.pain-1{background:var(--p1-bg);color:var(--p1-t)}
 .cd.pain-2{background:var(--p2-bg);color:var(--p2-t)}
 .cd.pain-3{background:var(--p3-bg);color:var(--p3-t)}
@@ -244,7 +244,6 @@ body{font-family:'Noto Sans TC',sans-serif;background:var(--bg);color:var(--text
         <div class="pi"><div class="pi-label">睡眠</div><div class="pbtns" id="pb-sleep"></div></div>
       </div>
       <div class="pain-legend">
-        <div class="pain-legend-item"><div class="pain-swatch" style="background:var(--p0-bg);border-color:var(--p0-b)"></div><span style="color:var(--p0-t)">0 不痛</span></div>
         <div class="pain-legend-item"><div class="pain-swatch" style="background:var(--p1-bg);border-color:var(--p1-b)"></div><span style="color:var(--p1-t)">1 小痛</span></div>
         <div class="pain-legend-item"><div class="pain-swatch" style="background:var(--p2-bg);border-color:var(--p2-b)"></div><span style="color:var(--p2-t)">2 中痛</span></div>
         <div class="pain-legend-item"><div class="pain-swatch" style="background:var(--p3-bg);border-color:var(--p3-b)"></div><span style="color:var(--p3-t)">3 大痛</span></div>
@@ -312,7 +311,6 @@ body{font-family:'Noto Sans TC',sans-serif;background:var(--bg);color:var(--text
       </div>
       <div class="cgrid" id="cal-body" style="margin-top:4px"></div>
       <div style="display:flex;gap:8px;margin-top:12px;flex-wrap:wrap;align-items:center">
-        <span class="badge b0">0 不痛</span>
         <span class="badge b1">1 小痛</span>
         <span class="badge b2">2 中痛</span>
         <span class="badge b3">3 大痛</span>
@@ -612,7 +610,7 @@ function renderHistory(){
       <span class="rec-date">${r.date}</span>
       <div class="rec-meta">
         ${r.visit?'<span class="badge bv">就診</span>':''}
-        <span class="badge b${mx}">最高 ${mx} 級</span>
+        ${mx>0?`<span class="badge b${mx}">最高 ${mx} 級</span>`:''}
         <span style="font-size:12px;color:var(--text-faint)">${r.hours||0}h</span>
         <div class="rec-actions">
           <button class="edit-btn" onclick="editEntry(${realIdx},event)"><i class="ti ti-pencil"></i></button>
@@ -741,7 +739,7 @@ function renderSymChart(containerId,data,dateMap,type){
       dr.innerHTML=`
         <span class="sym-date-txt">${r.date}</span>
         <div class="sym-date-badges">
-          <span class="badge b${mx2}">最高 ${mx2} 級</span>
+          <span class="badge b${mx2}" style="${mx2===0?'display:none':''}">最高 ${mx2} 級</span>
           ${r.hours?`<span class="sym-date-h">${r.hours}h</span>`:''}
           ${(r.drugs||[]).length?`<span class="sym-date-h">💊${r.drugs.map(d=>d.name).join('、')}</span>`:''}
         </div>`;
