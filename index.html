@@ -55,10 +55,8 @@ body{font-family:'Noto Sans TC',sans-serif;background:var(--bg);color:var(--text
 .ct{font-size:13px;font-weight:500;color:var(--text-muted);margin-bottom:.875rem;display:flex;align-items:center;gap:6px}
 .ct i{font-size:15px}
 
-/* 編輯模式提示 */
 .editing-bar{display:none;background:#eff6ff;border:1px solid #93c5fd;border-radius:var(--rs);padding:8px 14px;margin-bottom:1rem;font-size:13px;color:#1d4ed8;align-items:center;gap:8px}
 .editing-bar.show{display:flex}
-.editing-bar i{font-size:15px}
 .cancel-edit{margin-left:auto;background:none;border:1px solid #93c5fd;border-radius:var(--rs);padding:3px 10px;font-size:12px;color:#1d4ed8;cursor:pointer;font-family:inherit}
 .cancel-edit:hover{background:#dbeafe}
 
@@ -88,19 +86,25 @@ body{font-family:'Noto Sans TC',sans-serif;background:var(--bg);color:var(--text
 .visit-lbl{display:flex;align-items:center;gap:10px;font-size:14px;cursor:pointer}
 .visit-lbl input{width:16px;height:16px;cursor:pointer;accent-color:var(--accent)}
 
-.dtable{width:100%;border-collapse:collapse}
-.dtable th{font-size:11px;color:var(--text-faint);font-weight:500;text-align:left;padding:0 4px 6px}
-.dtable td{padding:3px 4px}
-.dtable input,.dtable select{width:100%;font-family:inherit;font-size:13px;padding:5px 7px;border:1px solid var(--border);border-radius:var(--rs);color:var(--text);background:var(--surface)}
-.dnum{font-size:12px;color:var(--text-faint);width:20px;text-align:center}
+/* 用藥紀錄 */
+.drug-rows{display:flex;flex-direction:column;gap:8px}
+.drug-row{display:grid;grid-template-columns:auto 1fr 80px 100px;gap:6px;align-items:center}
+.drug-row-num{font-size:12px;color:var(--text-faint);width:20px;text-align:center;flex-shrink:0}
+.drug-row select, .drug-row input{
+  font-family:inherit;font-size:13px;padding:6px 8px;
+  border:1px solid var(--border);border-radius:var(--rs);
+  color:var(--text);background:var(--surface);width:100%
+}
+.drug-row select:focus, .drug-row input:focus{outline:2px solid var(--accent);outline-offset:1px;border-color:transparent}
+.drug-col-headers{display:grid;grid-template-columns:20px 1fr 80px 100px;gap:6px;margin-bottom:2px;padding:0 0 4px;border-bottom:1px solid var(--border)}
+.drug-col-headers span{font-size:11px;color:var(--text-faint);font-weight:500}
 
 .save-btn{width:100%;padding:11px;background:var(--accent);color:#fff;border:none;border-radius:var(--r);font-size:15px;font-weight:500;font-family:inherit;cursor:pointer;margin-bottom:1.5rem;transition:background .15s;display:flex;align-items:center;justify-content:center;gap:6px}
 .save-btn:hover{background:#1d4ed8}
 .save-btn:disabled{background:#93c5fd;cursor:not-allowed}
 
-/* 紀錄列表 */
 .rec-empty{font-size:13px;color:var(--text-faint);text-align:center;padding:1.5rem 0}
-.rec{background:var(--surface);border:1px solid var(--border);border-radius:var(--r);padding:10px 14px;margin-bottom:8px;cursor:pointer;transition:border-color .15s}
+.rec{background:var(--surface);border:1px solid var(--border);border-radius:var(--r);padding:10px 14px;margin-bottom:8px;transition:border-color .15s}
 .rec:hover{border-color:var(--border-hover)}
 .rec-hd{display:flex;justify-content:space-between;align-items:center}
 .rec-date{font-size:14px;font-weight:500}
@@ -142,11 +146,17 @@ body{font-family:'Noto Sans TC',sans-serif;background:var(--bg);color:var(--text
 #toast{position:fixed;bottom:1.5rem;right:1.5rem;background:#1e293b;color:#fff;padding:9px 16px;border-radius:var(--r);font-size:13px;z-index:999;opacity:0;transform:translateY(8px);transition:opacity .25s,transform .25s;pointer-events:none}
 #toast.show{opacity:1;transform:translateY(0)}
 
-@media(max-width:480px){
+@media(max-width:540px){
   .pain-grid{grid-template-columns:repeat(2,1fr)}
   .tgrid{grid-template-columns:1fr}
   .scards{grid-template-columns:repeat(2,1fr)}
   .tab span{display:none}
+  .drug-row{grid-template-columns:auto 1fr 60px 90px}
+}
+@media(max-width:400px){
+  .drug-row{grid-template-columns:1fr 1fr;grid-template-rows:auto auto}
+  .drug-row-num{display:none}
+  .drug-col-headers{display:none}
 }
 </style>
 </head>
@@ -182,7 +192,6 @@ body{font-family:'Noto Sans TC',sans-serif;background:var(--bg);color:var(--text
   </div>
 
   <div id="panel-entry" class="panel active">
-    <!-- 編輯模式提示 -->
     <div class="editing-bar" id="editing-bar">
       <i class="ti ti-pencil" aria-hidden="true"></i>
       <span id="editing-label">編輯模式</span>
@@ -193,6 +202,7 @@ body{font-family:'Noto Sans TC',sans-serif;background:var(--bg);color:var(--text
       <i class="ti ti-calendar-event" style="color:var(--text-faint)" aria-hidden="true"></i>
       <input type="date" id="entry-date">
     </div>
+
     <div class="card">
       <div class="ct"><i class="ti ti-activity"></i>頭痛程度（0=不痛 1=小痛 2=中痛 3=大痛）</div>
       <div class="pain-grid">
@@ -207,29 +217,38 @@ body{font-family:'Noto Sans TC',sans-serif;background:var(--bg);color:var(--text
         <span>小時</span>
       </div>
     </div>
+
     <div class="card">
       <div class="ct"><i class="ti ti-stethoscope"></i>就診紀錄</div>
       <label class="visit-lbl"><input type="checkbox" id="visit-neuro"> 至神經內科就診</label>
     </div>
+
     <div class="card">
       <div class="ct"><i class="ti ti-alert-triangle"></i>頭痛伴隨症狀</div>
       <div class="tgrid" id="sym-grid"></div>
     </div>
+
     <div class="card">
       <div class="ct"><i class="ti ti-eye"></i>頭痛前預兆</div>
       <div class="tgrid" id="aura-grid"></div>
     </div>
+
     <div class="card">
       <div class="ct"><i class="ti ti-pill"></i>用藥紀錄</div>
-      <table class="dtable">
-        <thead><tr><th style="width:22px"></th><th>藥物名稱</th><th style="width:70px">劑量</th><th style="width:100px">止痛效果</th></tr></thead>
-        <tbody id="drug-body"></tbody>
-      </table>
+      <div class="drug-col-headers">
+        <span></span>
+        <span>藥物名稱</span>
+        <span>劑量</span>
+        <span>止痛效果</span>
+      </div>
+      <div class="drug-rows" id="drug-rows"></div>
     </div>
+
     <div class="card">
       <div class="ct"><i class="ti ti-list-check"></i>其他因素</div>
       <div class="tgrid" id="other-grid"></div>
     </div>
+
     <button class="save-btn" id="save-btn" onclick="saveEntry()">
       <i class="ti ti-device-floppy"></i> 儲存今日紀錄
     </button>
@@ -294,17 +313,48 @@ const SB_URL = 'https://wrgqirulkecgmhghwyan.supabase.co';
 const SB_KEY = 'sb_publishable_c99A8Z1py3gVkK7pbUuYoA_cO7Fh9pp';
 const USER_ID = 'headache_diary_user';
 
-function setSync(state, text) {
+// 預設藥物清單
+const DRUG_PRESETS = ['', 'EVE A錠', '希藥葆', '安舒疼', '其他'];
+const EFFS = [{v:'',l:'—'},{v:'0',l:'0 沒效'},{v:'1',l:'1 稍有效'},{v:'2',l:'2 有效'},{v:'3',l:'3 非常有效'}];
+
+const SYMS=[
+  {key:'nausea',label:'噁心',icon:'ti-mood-sick'},
+  {key:'vomit',label:'嘔吐',icon:'ti-droplet'},
+  {key:'photophobia',label:'對光線敏感',icon:'ti-sun'},
+  {key:'phonophobia',label:'對聲音敏感',icon:'ti-ear'},
+  {key:'throbbing',label:'脈搏式跳痛',icon:'ti-heartbeat'},
+  {key:'unilateral',label:'單側頭痛',icon:'ti-arrows-left-right'},
+  {key:'neck',label:'後頸痛',icon:'ti-spine'},
+  {key:'facenumb',label:'臉麻',icon:'ti-face-mask'},
+  {key:'worse',label:'活動加重',icon:'ti-run'}
+];
+const AURAS=[
+  {key:'flash',label:'眼前閃光',icon:'ti-bolt'},
+  {key:'blindspot',label:'部分視野缺失',icon:'ti-eye-off'}
+];
+const OTHERS=[
+  {key:'period',label:'生理期',icon:'ti-gender-female'},
+  {key:'rls',label:'不寧腿',icon:'ti-leg'},
+  {key:'insomnia',label:'失眠',icon:'ti-moon'},
+  {key:'weather',label:'天氣劇變',icon:'ti-cloud-storm'}
+];
+
+let pain={morning:0,afternoon:0,evening:0,sleep:0};
+let syms={},aura={},other={},allRec=[];
+let calY,calM,isEditing=false;
+
+function dstr(d){return d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')+'-'+String(d.getDate()).padStart(2,'0');}
+function mpain(p){return Math.max(p.morning||0,p.afternoon||0,p.evening||0,p.sleep||0);}
+
+function setSync(state,text){
   const badge=document.getElementById('sync-badge');
-  const dot=document.getElementById('sync-dot');
   badge.className='sync-badge '+state;
-  dot.className='sync-dot'+(state==='syncing'?' spin':'');
+  document.getElementById('sync-dot').className='sync-dot'+(state==='syncing'?' spin':'');
   document.getElementById('sync-text').textContent=text;
 }
 
-function checkPw() {
-  const v=document.getElementById('pw-input').value;
-  if(v===PW){
+function checkPw(){
+  if(document.getElementById('pw-input').value===PW){
     sessionStorage.setItem('hd_auth','1');
     document.getElementById('pw-screen').style.display='none';
     document.getElementById('main-screen').style.display='block';
@@ -331,37 +381,6 @@ async function sb(path,opts={}){
   const t=await r.text();return t?JSON.parse(t):null;
 }
 
-const SYMS=[
-  {key:'nausea',label:'噁心',icon:'ti-mood-sick'},
-  {key:'vomit',label:'嘔吐',icon:'ti-droplet'},
-  {key:'photophobia',label:'對光線敏感',icon:'ti-sun'},
-  {key:'phonophobia',label:'對聲音敏感',icon:'ti-ear'},
-  {key:'throbbing',label:'脈搏式跳痛',icon:'ti-heartbeat'},
-  {key:'unilateral',label:'單側頭痛',icon:'ti-arrows-left-right'},
-  {key:'neck',label:'後頸痛',icon:'ti-spine'},
-  {key:'facenumb',label:'臉麻',icon:'ti-face-mask'},
-  {key:'worse',label:'活動加重',icon:'ti-run'}
-];
-const AURAS=[
-  {key:'flash',label:'眼前閃光',icon:'ti-bolt'},
-  {key:'blindspot',label:'部分視野缺失',icon:'ti-eye-off'}
-];
-const OTHERS=[
-  {key:'period',label:'生理期',icon:'ti-gender-female'},
-  {key:'rls',label:'不寧腿',icon:'ti-leg'},
-  {key:'insomnia',label:'失眠',icon:'ti-moon'},
-  {key:'weather',label:'天氣劇變',icon:'ti-cloud-storm'}
-];
-const EFFS=[{v:'',l:'—'},{v:'0',l:'0 沒效'},{v:'1',l:'1 稍有效'},{v:'2',l:'2 有效'},{v:'3',l:'3 非常有效'}];
-
-let pain={morning:0,afternoon:0,evening:0,sleep:0};
-let syms={},aura={},other={},allRec=[];
-let calY,calM;
-let isEditing=false;
-
-function dstr(d){return d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')+'-'+String(d.getDate()).padStart(2,'0');}
-function mpain(p){return Math.max(p.morning||0,p.afternoon||0,p.evening||0,p.sleep||0);}
-
 async function init(){
   const d=new Date();
   document.getElementById('entry-date').value=dstr(d);
@@ -370,7 +389,7 @@ async function init(){
   renderToggles('sym-grid',SYMS,syms);
   renderToggles('aura-grid',AURAS,aura);
   renderToggles('other-grid',OTHERS,other);
-  renderDrugs();
+  renderDrugRows();
   await loadRec();
   renderHistory();renderCalendar();renderStats();
 }
@@ -418,36 +437,67 @@ function renderToggles(gid,list,state){
     el.appendChild(b);
   });
 }
-function renderDrugs(drugs){
-  const tb=document.getElementById('drug-body');tb.innerHTML='';
-  for(let i=0;i<8;i++){
-    const d=drugs&&drugs[i]?drugs[i]:{name:i===0?'EVE A錠':'',dose:'',eff:''};
-    const tr=document.createElement('tr');
-    tr.innerHTML=`<td class="dnum">${i+1}</td>
-      <td><input type="text" id="dn-${i}" placeholder="藥物名稱" value="${d.name}"></td>
-      <td><input type="text" id="dd-${i}" placeholder="劑量" value="${d.dose}"></td>
-      <td><select id="de-${i}">${EFFS.map(o=>`<option value="${o.v}"${o.v===d.eff?' selected':''}>${o.l}</option>`).join('')}</select></td>`;
-    tb.appendChild(tr);
+
+// ── 用藥欄位（下拉選藥 + 劑量 + 效果）──
+function renderDrugRows(drugs) {
+  const container = document.getElementById('drug-rows');
+  container.innerHTML = '';
+  for(let i=0;i<4;i++){
+    const d = drugs&&drugs[i] ? drugs[i] : {name:'',dose:'',eff:''};
+    const row = document.createElement('div');
+    row.className = 'drug-row';
+
+    // 判斷藥名是否在預設清單
+    const isPreset = DRUG_PRESETS.includes(d.name);
+    const selectVal = isPreset ? d.name : '其他';
+    const customVal = isPreset ? '' : d.name;
+
+    row.innerHTML = `
+      <span class="drug-row-num">${i+1}</span>
+      <div style="display:flex;flex-direction:column;gap:4px">
+        <select id="ds-${i}" onchange="onDrugSelect(${i})">
+          ${DRUG_PRESETS.map(p=>`<option value="${p}"${p===selectVal?' selected':''}>${p||'— 選擇藥物 —'}</option>`).join('')}
+        </select>
+        <input type="text" id="dc-${i}" placeholder="請輸入藥物名稱"
+          style="display:${selectVal==='其他'?'block':'none'}"
+          value="${customVal}">
+      </div>
+      <input type="text" id="dd-${i}" placeholder="劑量" value="${d.dose||''}">
+      <select id="de-${i}">
+        ${EFFS.map(o=>`<option value="${o.v}"${o.v===d.eff?' selected':''}>${o.l}</option>`).join('')}
+      </select>`;
+    container.appendChild(row);
   }
 }
 
-// ── 載入紀錄到表單（編輯） ──
+function onDrugSelect(i){
+  const sel=document.getElementById('ds-'+i);
+  const custom=document.getElementById('dc-'+i);
+  custom.style.display=sel.value==='其他'?'block':'none';
+  if(sel.value!=='其他') custom.value='';
+}
+
+function getDrugName(i){
+  const sel=document.getElementById('ds-'+i);
+  if(sel.value==='其他') return document.getElementById('dc-'+i).value.trim();
+  return sel.value;
+}
+
+// ── 載入到表單（編輯）──
 function loadToForm(r){
   pain={...r.pain};
   syms={...r.symptoms};
   aura={...r.aura};
   other={...r.other};
   document.getElementById('entry-date').value=r.date;
-  document.getElementById('entry-date').disabled=true; // 鎖定日期不讓改
+  document.getElementById('entry-date').disabled=true;
   document.getElementById('total-hours').value=r.hours||0;
   document.getElementById('visit-neuro').checked=r.visit||false;
   renderPainAll();
   renderToggles('sym-grid',SYMS,syms);
   renderToggles('aura-grid',AURAS,aura);
   renderToggles('other-grid',OTHERS,other);
-  // 補齊 8 筆 drug
-  const drugs=[...Array(8)].map((_,i)=>r.drugs&&r.drugs[i]?r.drugs[i]:{name:i===0&&!r.drugs?.length?'EVE A錠':'',dose:'',eff:''});
-  renderDrugs(drugs);
+  renderDrugRows(r.drugs||[]);
   isEditing=true;
   document.getElementById('editing-bar').classList.add('show');
   document.getElementById('editing-label').textContent='正在編輯 '+r.date;
@@ -460,7 +510,6 @@ function cancelEdit(){
   isEditing=false;
   document.getElementById('editing-bar').classList.remove('show');
   document.getElementById('entry-date').disabled=false;
-  // 重設表單
   const d=new Date();
   document.getElementById('entry-date').value=dstr(d);
   pain={morning:0,afternoon:0,evening:0,sleep:0};
@@ -471,7 +520,7 @@ function cancelEdit(){
   renderToggles('sym-grid',SYMS,syms);
   renderToggles('aura-grid',AURAS,aura);
   renderToggles('other-grid',OTHERS,other);
-  renderDrugs();
+  renderDrugRows();
   document.getElementById('save-btn').innerHTML='<i class="ti ti-device-floppy"></i> 儲存今日紀錄';
 }
 
@@ -481,24 +530,28 @@ async function saveEntry(){
   const btn=document.getElementById('save-btn');
   btn.disabled=true;btn.innerHTML='<i class="ti ti-loader-2"></i> 儲存中…';
   setSync('syncing','同步中');
-  const drugs=[...Array(8)].map((_,i)=>({
-    name:document.getElementById('dn-'+i).value.trim(),
+
+  const drugs=[...Array(4)].map((_,i)=>({
+    name:getDrugName(i),
     dose:document.getElementById('dd-'+i).value.trim(),
     eff:document.getElementById('de-'+i).value
   })).filter(d=>d.name);
-  const data={pain:{...pain},hours:parseFloat(document.getElementById('total-hours').value)||0,
+
+  const data={
+    pain:{...pain},
+    hours:parseFloat(document.getElementById('total-hours').value)||0,
     visit:document.getElementById('visit-neuro').checked,
-    symptoms:{...syms},aura:{...aura},other:{...other},drugs};
+    symptoms:{...syms},aura:{...aura},other:{...other},drugs
+  };
   try{
     await sb('/rest/v1/headache_records',{
       method:'POST',
       headers:{'Prefer':'resolution=merge-duplicates,return=representation'},
       body:JSON.stringify({user_id:USER_ID,date,data})
     });
-    await loadRec();
-    renderHistory();renderStats();
+    await loadRec();renderHistory();renderStats();
     showToast(isEditing?'✓ 已更新 '+date:'✓ 已儲存 '+date);
-    if(isEditing) cancelEdit();
+    if(isEditing)cancelEdit();
   }catch(e){setSync('err','同步失敗');showToast('儲存失敗：'+e.message);}
   btn.disabled=false;
   btn.innerHTML=isEditing?'<i class="ti ti-device-floppy"></i> 更新紀錄':'<i class="ti ti-device-floppy"></i> 儲存今日紀錄';
@@ -538,9 +591,8 @@ function renderHistory(){
 function editEntry(date,e){
   e.stopPropagation();
   const r=allRec.find(x=>x.date===date);
-  if(r) loadToForm(r);
+  if(r)loadToForm(r);
 }
-
 async function delEntry(date,e){
   e.stopPropagation();
   if(!confirm('確定刪除 '+date+' 的紀錄？'))return;
