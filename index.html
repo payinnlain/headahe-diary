@@ -9,239 +9,177 @@
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@3.19.0/dist/tabler-icons.min.css">
 <style>
 :root {
-  --bg: #f7f6f3;
-  --surface: #ffffff;
-  --border: rgba(0,0,0,0.1);
-  --border-hover: rgba(0,0,0,0.2);
-  --text: #1a1a1a;
-  --text-muted: #6b6b6b;
-  --text-faint: #9e9e9e;
-  --accent: #2563eb;
-  --accent-bg: #eff6ff;
-  --pain0-bg: #e1f5ee; --pain0-text: #0f6e56; --pain0-border: #5dcaa5;
-  --pain1-bg: #fef3c7; --pain1-text: #92400e; --pain1-border: #f59e0b;
-  --pain2-bg: #ffedd5; --pain2-text: #9a3412; --pain2-border: #f97316;
-  --pain3-bg: #fee2e2; --pain3-text: #991b1b; --pain3-border: #ef4444;
-  --radius: 10px;
-  --radius-sm: 7px;
+  --bg:#f7f6f3;--surface:#fff;--border:rgba(0,0,0,0.1);--border-hover:rgba(0,0,0,0.2);
+  --text:#1a1a1a;--text-muted:#6b6b6b;--text-faint:#9e9e9e;
+  --accent:#2563eb;--accent-bg:#eff6ff;
+  --p0-bg:#e1f5ee;--p0-t:#0f6e56;--p0-b:#5dcaa5;
+  --p1-bg:#fef3c7;--p1-t:#92400e;--p1-b:#f59e0b;
+  --p2-bg:#ffedd5;--p2-t:#9a3412;--p2-b:#f97316;
+  --p3-bg:#fee2e2;--p3-t:#991b1b;--p3-b:#ef4444;
+  --r:10px;--rs:7px;
 }
-* { box-sizing: border-box; margin: 0; padding: 0; }
-body {
-  font-family: 'Noto Sans TC', sans-serif;
-  background: var(--bg);
-  color: var(--text);
-  font-size: 15px;
-  line-height: 1.6;
-  min-height: 100vh;
-}
-a { color: var(--accent); text-decoration: none; }
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:'Noto Sans TC',sans-serif;background:var(--bg);color:var(--text);font-size:15px;line-height:1.6;min-height:100vh}
+.wrap{max-width:680px;margin:0 auto;padding:1.5rem 1rem 3rem}
 
-/* Layout */
-.container { max-width: 680px; margin: 0 auto; padding: 1.5rem 1rem 3rem; }
-header {
-  display: flex; align-items: center; gap: 12px;
-  margin-bottom: 1.75rem;
-  padding-bottom: 1.25rem;
-  border-bottom: 1px solid var(--border);
-}
-header h1 { font-size: 20px; font-weight: 600; }
-header .subtitle { font-size: 13px; color: var(--text-muted); margin-top: 1px; }
+/* Login */
+#login-wrap{max-width:360px;margin:4rem auto;padding:0 1rem}
+.login-logo{text-align:center;margin-bottom:1.5rem}
+.login-logo i{font-size:40px;color:var(--accent)}
+.login-logo h1{font-size:20px;font-weight:600;margin-top:.5rem}
+.lcard{background:var(--surface);border:1px solid var(--border);border-radius:var(--r);padding:1.5rem}
+.field{margin-bottom:1rem}
+.field label{display:block;font-size:13px;color:var(--text-muted);margin-bottom:5px}
+.field input{width:100%;font-family:inherit;font-size:14px;padding:8px 10px;border:1px solid var(--border);border-radius:var(--rs);color:var(--text);background:var(--surface)}
+.field input:focus{outline:2px solid var(--accent);outline-offset:1px;border-color:transparent}
+.lbtn{width:100%;padding:10px;background:var(--accent);color:#fff;border:none;border-radius:var(--rs);font-size:14px;font-weight:500;font-family:inherit;cursor:pointer;margin-top:.25rem}
+.lbtn:hover{background:#1d4ed8}
+.lswitch{text-align:center;font-size:13px;color:var(--text-muted);margin-top:.875rem}
+.lswitch a{color:var(--accent);cursor:pointer;text-decoration:underline}
+.lerr{font-size:13px;color:#dc2626;margin-top:.5rem;text-align:center;min-height:18px}
+.lsuc{font-size:13px;color:#16a34a;margin-top:.5rem;text-align:center;min-height:18px}
 
-/* Tabs */
-.tabs { display: flex; gap: 4px; margin-bottom: 1.5rem; background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); padding: 4px; }
-.tab { flex: 1; padding: 7px; border: none; background: none; cursor: pointer; font-size: 13px; font-family: inherit; color: var(--text-muted); border-radius: 7px; transition: all .15s; display: flex; align-items: center; justify-content: center; gap: 5px; }
-.tab.active { background: var(--accent); color: #fff; }
-.tab i { font-size: 15px; }
-.panel { display: none; }
-.panel.active { display: block; }
+/* Main */
+#main-wrap{display:none}
+.topbar{display:flex;align-items:center;gap:10px;margin-bottom:1.5rem;padding-bottom:1.25rem;border-bottom:1px solid var(--border)}
+.topbar-title{font-size:18px;font-weight:600}
+.topbar-email{flex:1;font-size:13px;color:var(--text-muted);overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.logout-btn{font-size:13px;color:var(--text-muted);background:none;border:1px solid var(--border);border-radius:var(--rs);padding:4px 10px;cursor:pointer;font-family:inherit;white-space:nowrap}
+.logout-btn:hover{border-color:var(--border-hover)}
 
-/* Cards */
-.card {
-  background: var(--surface);
-  border: 1px solid var(--border);
-  border-radius: var(--radius);
-  padding: 1rem 1.25rem;
-  margin-bottom: .875rem;
-}
-.card-title {
-  font-size: 13px; font-weight: 500; color: var(--text-muted);
-  margin-bottom: .875rem; display: flex; align-items: center; gap: 6px;
-}
-.card-title i { font-size: 15px; }
+.tabs{display:flex;gap:4px;margin-bottom:1.5rem;background:var(--surface);border:1px solid var(--border);border-radius:var(--r);padding:4px}
+.tab{flex:1;padding:7px 4px;border:none;background:none;cursor:pointer;font-size:13px;font-family:inherit;color:var(--text-muted);border-radius:7px;transition:all .15s;display:flex;align-items:center;justify-content:center;gap:4px}
+.tab.active{background:var(--accent);color:#fff}
+.tab i{font-size:15px}
+.panel{display:none}.panel.active{display:block}
 
-/* Date bar */
-.date-bar { display: flex; align-items: center; gap: 10px; margin-bottom: 1.25rem; flex-wrap: wrap; }
-.date-bar input[type=date] { font-family: inherit; font-size: 14px; padding: 7px 10px; border: 1px solid var(--border); border-radius: var(--radius-sm); background: var(--surface); color: var(--text); cursor: pointer; }
-.date-bar input[type=date]:focus { outline: 2px solid var(--accent); outline-offset: 1px; border-color: transparent; }
+.card{background:var(--surface);border:1px solid var(--border);border-radius:var(--r);padding:1rem 1.25rem;margin-bottom:.875rem}
+.ct{font-size:13px;font-weight:500;color:var(--text-muted);margin-bottom:.875rem;display:flex;align-items:center;gap:6px}
+.ct i{font-size:15px}
 
-/* Pain grid */
-.pain-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px; }
-.pain-item { text-align: center; }
-.pain-item-label { font-size: 12px; color: var(--text-muted); margin-bottom: 6px; }
-.pain-btns { display: flex; gap: 3px; justify-content: center; }
-.pain-btn {
-  width: 30px; height: 30px;
-  border: 1px solid var(--border);
-  border-radius: var(--radius-sm);
-  background: var(--surface);
-  cursor: pointer; font-size: 13px; font-family: inherit;
-  color: var(--text-muted); transition: all .15s;
-  display: flex; align-items: center; justify-content: center;
-}
-.pain-btn:hover { border-color: var(--border-hover); }
-.pain-btn.sel-0 { background: var(--pain0-bg); color: var(--pain0-text); border-color: var(--pain0-border); }
-.pain-btn.sel-1 { background: var(--pain1-bg); color: var(--pain1-text); border-color: var(--pain1-border); }
-.pain-btn.sel-2 { background: var(--pain2-bg); color: var(--pain2-text); border-color: var(--pain2-border); }
-.pain-btn.sel-3 { background: var(--pain3-bg); color: var(--pain3-text); border-color: var(--pain3-border); }
+.date-bar{display:flex;align-items:center;gap:10px;margin-bottom:1.25rem}
+.date-bar input[type=date]{font-family:inherit;font-size:14px;padding:7px 10px;border:1px solid var(--border);border-radius:var(--rs);background:var(--surface);color:var(--text);cursor:pointer}
 
-/* Hours */
-.hours-row { display: flex; align-items: center; gap: 10px; margin-top: 14px; padding-top: 14px; border-top: 1px solid var(--border); }
-.hours-row label { font-size: 13px; color: var(--text-muted); }
-.hours-row input { width: 72px; font-family: inherit; font-size: 14px; padding: 5px 8px; border: 1px solid var(--border); border-radius: var(--radius-sm); color: var(--text); background: var(--surface); }
-.hours-row span { font-size: 13px; color: var(--text-muted); }
+.pain-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:10px}
+.pi{text-align:center}
+.pi-label{font-size:12px;color:var(--text-muted);margin-bottom:6px}
+.pbtns{display:flex;gap:3px;justify-content:center}
+.pbtn{width:30px;height:30px;border:1px solid var(--border);border-radius:var(--rs);background:var(--surface);cursor:pointer;font-size:13px;font-family:inherit;color:var(--text-muted);transition:all .15s}
+.pbtn.s0{background:var(--p0-bg);color:var(--p0-t);border-color:var(--p0-b)}
+.pbtn.s1{background:var(--p1-bg);color:var(--p1-t);border-color:var(--p1-b)}
+.pbtn.s2{background:var(--p2-bg);color:var(--p2-t);border-color:var(--p2-b)}
+.pbtn.s3{background:var(--p3-bg);color:var(--p3-t);border-color:var(--p3-b)}
 
-/* Toggle buttons */
-.toggle-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 6px; }
-.toggle-grid.single { grid-template-columns: 1fr; }
-.toggle-btn {
-  display: flex; align-items: center; gap: 8px;
-  padding: 8px 10px;
-  border: 1px solid var(--border);
-  border-radius: var(--radius-sm);
-  background: var(--surface);
-  cursor: pointer; font-size: 13px; font-family: inherit;
-  color: var(--text); transition: all .15s; text-align: left;
-}
-.toggle-btn i { font-size: 15px; color: var(--text-faint); flex-shrink: 0; }
-.toggle-btn:hover { border-color: var(--border-hover); }
-.toggle-btn.on { background: var(--accent-bg); border-color: #93c5fd; color: var(--accent); }
-.toggle-btn.on i { color: var(--accent); }
+.hours-row{display:flex;align-items:center;gap:10px;margin-top:14px;padding-top:14px;border-top:1px solid var(--border)}
+.hours-row label{font-size:13px;color:var(--text-muted)}
+.hours-row input{width:72px;font-family:inherit;font-size:14px;padding:5px 8px;border:1px solid var(--border);border-radius:var(--rs);color:var(--text);background:var(--surface)}
 
-/* Drug table */
-.drug-table { width: 100%; border-collapse: collapse; }
-.drug-table th { font-size: 11px; color: var(--text-faint); font-weight: 500; text-align: left; padding: 0 4px 6px; }
-.drug-table td { padding: 3px 4px; }
-.drug-table input, .drug-table select {
-  width: 100%; font-family: inherit; font-size: 13px;
-  padding: 5px 7px; border: 1px solid var(--border);
-  border-radius: var(--radius-sm); color: var(--text); background: var(--surface);
-}
-.drug-table input:focus, .drug-table select:focus { outline: 2px solid var(--accent); outline-offset: 1px; border-color: transparent; }
-.drug-num { font-size: 12px; color: var(--text-faint); width: 20px; text-align: center; }
+.tgrid{display:grid;grid-template-columns:repeat(2,1fr);gap:6px}
+.tbtn{display:flex;align-items:center;gap:8px;padding:8px 10px;border:1px solid var(--border);border-radius:var(--rs);background:var(--surface);cursor:pointer;font-size:13px;font-family:inherit;color:var(--text);transition:all .15s;text-align:left}
+.tbtn i{font-size:15px;color:var(--text-faint);flex-shrink:0}
+.tbtn.on{background:var(--accent-bg);border-color:#93c5fd;color:var(--accent)}
+.tbtn.on i{color:var(--accent)}
 
-/* Visit */
-.visit-label { display: flex; align-items: center; gap: 10px; font-size: 14px; cursor: pointer; }
-.visit-label input[type=checkbox] { width: 16px; height: 16px; cursor: pointer; accent-color: var(--accent); }
+.visit-lbl{display:flex;align-items:center;gap:10px;font-size:14px;cursor:pointer}
+.visit-lbl input{width:16px;height:16px;cursor:pointer;accent-color:var(--accent)}
 
-/* Save button */
-.save-btn {
-  width: 100%; padding: 11px;
-  background: var(--accent); color: #fff;
-  border: none; border-radius: var(--radius);
-  font-size: 15px; font-weight: 500; font-family: inherit;
-  cursor: pointer; margin-bottom: 1.5rem; transition: background .15s;
-  display: flex; align-items: center; justify-content: center; gap: 6px;
-}
-.save-btn:hover { background: #1d4ed8; }
-.save-btn i { font-size: 17px; }
+.dtable{width:100%;border-collapse:collapse}
+.dtable th{font-size:11px;color:var(--text-faint);font-weight:500;text-align:left;padding:0 4px 6px}
+.dtable td{padding:3px 4px}
+.dtable input,.dtable select{width:100%;font-family:inherit;font-size:13px;padding:5px 7px;border:1px solid var(--border);border-radius:var(--rs);color:var(--text);background:var(--surface)}
+.dnum{font-size:12px;color:var(--text-faint);width:20px;text-align:center}
 
-/* Records */
-.rec-empty { font-size: 13px; color: var(--text-faint); text-align: center; padding: 1.5rem 0; }
-.rec-item {
-  background: var(--surface); border: 1px solid var(--border);
-  border-radius: var(--radius); padding: 10px 14px;
-  margin-bottom: 8px; transition: border-color .15s;
-}
-.rec-item:hover { border-color: var(--border-hover); }
-.rec-header { display: flex; justify-content: space-between; align-items: center; }
-.rec-date { font-size: 14px; font-weight: 500; }
-.rec-meta { display: flex; align-items: center; gap: 6px; }
-.badge {
-  font-size: 11px; padding: 2px 8px; border-radius: 20px;
-  font-weight: 500; white-space: nowrap;
-}
-.badge-0 { background: var(--pain0-bg); color: var(--pain0-text); }
-.badge-1 { background: var(--pain1-bg); color: var(--pain1-text); }
-.badge-2 { background: var(--pain2-bg); color: var(--pain2-text); }
-.badge-3 { background: var(--pain3-bg); color: var(--pain3-text); }
-.badge-visit { background: #f3e8ff; color: #7e22ce; }
-.badge-gray { background: #f1f5f9; color: #64748b; }
-.sym-tags { display: flex; flex-wrap: wrap; gap: 4px; margin-top: 6px; }
-.sym-tag { font-size: 11px; padding: 2px 7px; border-radius: 20px; background: #f1f5f9; color: #475569; }
-.drug-line { font-size: 12px; color: var(--text-muted); margin-top: 4px; }
-.del-btn { background: none; border: none; cursor: pointer; color: var(--text-faint); font-size: 16px; padding: 2px 6px; border-radius: 4px; line-height: 1; }
-.del-btn:hover { color: #dc2626; background: #fee2e2; }
+.save-btn{width:100%;padding:11px;background:var(--accent);color:#fff;border:none;border-radius:var(--r);font-size:15px;font-weight:500;font-family:inherit;cursor:pointer;margin-bottom:1.5rem;transition:background .15s;display:flex;align-items:center;justify-content:center;gap:6px}
+.save-btn:hover{background:#1d4ed8}
+.save-btn:disabled{background:#93c5fd;cursor:not-allowed}
 
-/* Calendar panel */
-.cal-nav { display: flex; align-items: center; gap: 10px; margin-bottom: 1rem; }
-.cal-nav button { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius-sm); padding: 5px 10px; cursor: pointer; font-family: inherit; font-size: 13px; color: var(--text); transition: border-color .15s; }
-.cal-nav button:hover { border-color: var(--border-hover); }
-.cal-nav h3 { flex: 1; font-size: 15px; font-weight: 500; text-align: center; }
-.cal-grid { display: grid; grid-template-columns: repeat(7, 1fr); gap: 4px; }
-.cal-header { font-size: 11px; color: var(--text-faint); text-align: center; padding: 4px 0; }
-.cal-day {
-  aspect-ratio: 1; display: flex; flex-direction: column; align-items: center; justify-content: center;
-  border-radius: var(--radius-sm); font-size: 13px; cursor: default; position: relative;
-  border: 1px solid transparent; transition: all .1s;
-}
-.cal-day.has-data { cursor: pointer; }
-.cal-day.has-data:hover { border-color: var(--border-hover); }
-.cal-day.empty { opacity: 0; pointer-events: none; }
-.cal-day.today { border-color: var(--accent) !important; }
-.cal-dot { width: 6px; height: 6px; border-radius: 50%; margin-top: 2px; }
-.cal-day.pain-0 { background: var(--pain0-bg); }
-.cal-day.pain-1 { background: var(--pain1-bg); }
-.cal-day.pain-2 { background: var(--pain2-bg); }
-.cal-day.pain-3 { background: var(--pain3-bg); }
+.rec-empty{font-size:13px;color:var(--text-faint);text-align:center;padding:1.5rem 0}
+.rec{background:var(--surface);border:1px solid var(--border);border-radius:var(--r);padding:10px 14px;margin-bottom:8px}
+.rec-hd{display:flex;justify-content:space-between;align-items:center}
+.rec-date{font-size:14px;font-weight:500}
+.rec-meta{display:flex;align-items:center;gap:6px}
+.badge{font-size:11px;padding:2px 8px;border-radius:20px;font-weight:500;white-space:nowrap}
+.b0{background:var(--p0-bg);color:var(--p0-t)}.b1{background:var(--p1-bg);color:var(--p1-t)}
+.b2{background:var(--p2-bg);color:var(--p2-t)}.b3{background:var(--p3-bg);color:var(--p3-t)}
+.bv{background:#f3e8ff;color:#7e22ce}
+.stags{display:flex;flex-wrap:wrap;gap:4px;margin-top:6px}
+.stag{font-size:11px;padding:2px 7px;border-radius:20px;background:#f1f5f9;color:#475569}
+.drug-ln{font-size:12px;color:var(--text-muted);margin-top:4px}
+.del-btn{background:none;border:none;cursor:pointer;color:var(--text-faint);font-size:16px;padding:2px 6px;border-radius:4px}
+.del-btn:hover{color:#dc2626;background:#fee2e2}
 
-/* Stats panel */
-.stat-cards { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; margin-bottom: 1rem; }
-.stat-card { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); padding: .875rem; text-align: center; }
-.stat-label { font-size: 11px; color: var(--text-faint); margin-bottom: 4px; }
-.stat-value { font-size: 24px; font-weight: 600; }
-.bar-chart { margin-top: .5rem; }
-.bar-row { display: flex; align-items: center; gap: 8px; margin-bottom: 5px; }
-.bar-label { font-size: 12px; color: var(--text-muted); width: 70px; text-align: right; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-.bar-track { flex: 1; height: 12px; background: var(--bg); border-radius: 6px; overflow: hidden; }
-.bar-fill { height: 100%; border-radius: 6px; background: var(--accent); transition: width .4s ease; }
-.bar-count { font-size: 12px; color: var(--text-muted); width: 24px; }
+.cal-nav{display:flex;align-items:center;gap:10px;margin-bottom:1rem}
+.cal-nav button{background:var(--surface);border:1px solid var(--border);border-radius:var(--rs);padding:5px 10px;cursor:pointer;font-family:inherit;font-size:13px;color:var(--text)}
+.cal-nav h3{flex:1;font-size:15px;font-weight:500;text-align:center}
+.cgrid{display:grid;grid-template-columns:repeat(7,1fr);gap:4px}
+.ch{font-size:11px;color:var(--text-faint);text-align:center;padding:4px 0}
+.cd{aspect-ratio:1;display:flex;align-items:center;justify-content:center;border-radius:var(--rs);font-size:13px;border:1px solid transparent}
+.cd.empty{opacity:0;pointer-events:none}
+.cd.today{border-color:var(--accent)!important}
+.cd.pain-0{background:var(--p0-bg)}.cd.pain-1{background:var(--p1-bg)}
+.cd.pain-2{background:var(--p2-bg)}.cd.pain-3{background:var(--p3-bg)}
 
-/* Toast */
-#toast {
-  position: fixed; bottom: 1.5rem; right: 1.5rem;
-  background: #1e293b; color: #fff;
-  padding: 9px 16px; border-radius: var(--radius);
-  font-size: 13px; z-index: 999;
-  opacity: 0; transform: translateY(8px);
-  transition: opacity .25s, transform .25s;
-  pointer-events: none;
-}
-#toast.show { opacity: 1; transform: translateY(0); }
+.scards{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-bottom:1rem}
+.sc{background:var(--surface);border:1px solid var(--border);border-radius:var(--r);padding:.875rem;text-align:center}
+.sc-label{font-size:11px;color:var(--text-faint);margin-bottom:4px}
+.sc-val{font-size:24px;font-weight:600}
+.bar-row{display:flex;align-items:center;gap:8px;margin-bottom:5px}
+.bar-label{font-size:12px;color:var(--text-muted);width:70px;text-align:right;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.bar-track{flex:1;height:12px;background:var(--bg);border-radius:6px;overflow:hidden}
+.bar-fill{height:100%;border-radius:6px;background:var(--accent)}
+.bar-cnt{font-size:12px;color:var(--text-muted);width:24px}
 
-/* Responsive */
-@media (max-width: 480px) {
-  .pain-grid { grid-template-columns: repeat(2, 1fr); }
-  .toggle-grid { grid-template-columns: 1fr; }
-  .stat-cards { grid-template-columns: repeat(2, 1fr); }
-  .drug-table th:nth-child(3), .drug-table td:nth-child(3) { display: none; }
+#toast{position:fixed;bottom:1.5rem;right:1.5rem;background:#1e293b;color:#fff;padding:9px 16px;border-radius:var(--r);font-size:13px;z-index:999;opacity:0;transform:translateY(8px);transition:opacity .25s,transform .25s;pointer-events:none}
+#toast.show{opacity:1;transform:translateY(0)}
+
+@media(max-width:480px){
+  .pain-grid{grid-template-columns:repeat(2,1fr)}
+  .tgrid{grid-template-columns:1fr}
+  .scards{grid-template-columns:repeat(2,1fr)}
+  .tab span{display:none}
 }
 </style>
 </head>
 <body>
-<div class="container">
-  <header>
-    <i class="ti ti-notes-medical" style="font-size:26px;color:#2563eb" aria-hidden="true"></i>
-    <div>
-      <h1>頭痛日記</h1>
-      <div class="subtitle">記錄、追蹤、了解你的頭痛模式</div>
+
+<!-- 登入 -->
+<div id="login-wrap">
+  <div class="login-logo">
+    <i class="ti ti-notes-medical" aria-hidden="true"></i>
+    <h1>頭痛日記</h1>
+  </div>
+  <div class="lcard">
+    <div id="mode-login">
+      <div class="field"><label>電子郵件</label><input type="email" id="l-email" placeholder="your@email.com" autocomplete="email"></div>
+      <div class="field"><label>密碼</label><input type="password" id="l-pw" placeholder="••••••••" autocomplete="current-password"></div>
+      <div class="lerr" id="l-err"></div>
+      <button class="lbtn" onclick="doLogin()">登入</button>
+      <div class="lswitch">還沒有帳號？<a onclick="showMode('register')">註冊</a></div>
     </div>
-  </header>
+    <div id="mode-register" style="display:none">
+      <div class="field"><label>電子郵件</label><input type="email" id="r-email" placeholder="your@email.com" autocomplete="email"></div>
+      <div class="field"><label>密碼（至少 6 位）</label><input type="password" id="r-pw" placeholder="••••••••" autocomplete="new-password"></div>
+      <div class="lerr" id="r-err"></div>
+      <button class="lbtn" onclick="doRegister()">註冊</button>
+      <div class="lswitch">已有帳號？<a onclick="showMode('login')">登入</a></div>
+    </div>
+  </div>
+</div>
+
+<!-- 主畫面 -->
+<div class="wrap" id="main-wrap">
+  <div class="topbar">
+    <i class="ti ti-notes-medical" style="font-size:20px;color:var(--accent)" aria-hidden="true"></i>
+    <span class="topbar-title">頭痛日記</span>
+    <span class="topbar-email" id="user-email"></span>
+    <button class="logout-btn" onclick="doLogout()"><i class="ti ti-logout" style="font-size:13px"></i> 登出</button>
+  </div>
 
   <div class="tabs">
-    <button class="tab active" onclick="switchTab('entry')"><i class="ti ti-edit"></i>今日記錄</button>
-    <button class="tab" onclick="switchTab('history')"><i class="ti ti-history"></i>過往紀錄</button>
-    <button class="tab" onclick="switchTab('calendar')"><i class="ti ti-calendar"></i>月曆</button>
-    <button class="tab" onclick="switchTab('stats')"><i class="ti ti-chart-bar"></i>統計</button>
+    <button class="tab active" onclick="switchTab('entry')"><i class="ti ti-edit"></i><span>今日記錄</span></button>
+    <button class="tab" onclick="switchTab('history')"><i class="ti ti-history"></i><span>過往紀錄</span></button>
+    <button class="tab" onclick="switchTab('calendar')"><i class="ti ti-calendar"></i><span>月曆</span></button>
+    <button class="tab" onclick="switchTab('stats')"><i class="ti ti-chart-bar"></i><span>統計</span></button>
   </div>
 
   <!-- 今日記錄 -->
@@ -250,14 +188,13 @@ header .subtitle { font-size: 13px; color: var(--text-muted); margin-top: 1px; }
       <i class="ti ti-calendar-event" style="color:var(--text-faint)" aria-hidden="true"></i>
       <input type="date" id="entry-date">
     </div>
-
     <div class="card">
-      <div class="card-title"><i class="ti ti-activity"></i>頭痛程度（0=不痛 1=小痛 2=中痛 3=大痛）</div>
+      <div class="ct"><i class="ti ti-activity"></i>頭痛程度（0=不痛 1=小痛 2=中痛 3=大痛）</div>
       <div class="pain-grid">
-        <div class="pain-item"><div class="pain-item-label">早上</div><div class="pain-btns" id="pb-morning"></div></div>
-        <div class="pain-item"><div class="pain-item-label">下午</div><div class="pain-btns" id="pb-afternoon"></div></div>
-        <div class="pain-item"><div class="pain-item-label">晚上</div><div class="pain-btns" id="pb-evening"></div></div>
-        <div class="pain-item"><div class="pain-item-label">睡眠</div><div class="pain-btns" id="pb-sleep"></div></div>
+        <div class="pi"><div class="pi-label">早上</div><div class="pbtns" id="pb-morning"></div></div>
+        <div class="pi"><div class="pi-label">下午</div><div class="pbtns" id="pb-afternoon"></div></div>
+        <div class="pi"><div class="pi-label">晚上</div><div class="pbtns" id="pb-evening"></div></div>
+        <div class="pi"><div class="pi-label">睡眠</div><div class="pbtns" id="pb-sleep"></div></div>
       </div>
       <div class="hours-row">
         <label for="total-hours">當日頭痛總時數</label>
@@ -265,45 +202,30 @@ header .subtitle { font-size: 13px; color: var(--text-muted); margin-top: 1px; }
         <span>小時</span>
       </div>
     </div>
-
     <div class="card">
-      <div class="card-title"><i class="ti ti-stethoscope"></i>就診紀錄</div>
-      <label class="visit-label">
-        <input type="checkbox" id="visit-neuro"> 至神經內科就診
-      </label>
+      <div class="ct"><i class="ti ti-stethoscope"></i>就診紀錄</div>
+      <label class="visit-lbl"><input type="checkbox" id="visit-neuro"> 至神經內科就診</label>
     </div>
-
     <div class="card">
-      <div class="card-title"><i class="ti ti-alert-triangle"></i>頭痛伴隨症狀</div>
-      <div class="toggle-grid" id="sym-grid"></div>
+      <div class="ct"><i class="ti ti-alert-triangle"></i>頭痛伴隨症狀</div>
+      <div class="tgrid" id="sym-grid"></div>
     </div>
-
     <div class="card">
-      <div class="card-title"><i class="ti ti-eye"></i>頭痛前預兆</div>
-      <div class="toggle-grid" id="aura-grid"></div>
+      <div class="ct"><i class="ti ti-eye"></i>頭痛前預兆</div>
+      <div class="tgrid" id="aura-grid"></div>
     </div>
-
     <div class="card">
-      <div class="card-title"><i class="ti ti-pill"></i>用藥紀錄</div>
-      <table class="drug-table">
-        <thead>
-          <tr>
-            <th style="width:22px"></th>
-            <th>藥物名稱</th>
-            <th style="width:70px">劑量</th>
-            <th style="width:100px">止痛效果</th>
-          </tr>
-        </thead>
+      <div class="ct"><i class="ti ti-pill"></i>用藥紀錄</div>
+      <table class="dtable">
+        <thead><tr><th style="width:22px"></th><th>藥物名稱</th><th style="width:70px">劑量</th><th style="width:100px">止痛效果</th></tr></thead>
         <tbody id="drug-body"></tbody>
       </table>
     </div>
-
     <div class="card">
-      <div class="card-title"><i class="ti ti-list-check"></i>其他因素</div>
-      <div class="toggle-grid" id="other-grid"></div>
+      <div class="ct"><i class="ti ti-list-check"></i>其他因素</div>
+      <div class="tgrid" id="other-grid"></div>
     </div>
-
-    <button class="save-btn" onclick="saveEntry()">
+    <button class="save-btn" id="save-btn" onclick="saveEntry()">
       <i class="ti ti-device-floppy"></i> 儲存今日紀錄
     </button>
   </div>
@@ -328,37 +250,33 @@ header .subtitle { font-size: 13px; color: var(--text-muted); margin-top: 1px; }
         <h3 id="cal-title"></h3>
         <button onclick="calNext()"><i class="ti ti-chevron-right"></i></button>
       </div>
-      <div class="cal-grid">
-        <div class="cal-header">日</div><div class="cal-header">一</div>
-        <div class="cal-header">二</div><div class="cal-header">三</div>
-        <div class="cal-header">四</div><div class="cal-header">五</div>
-        <div class="cal-header">六</div>
+      <div class="cgrid">
+        <div class="ch">日</div><div class="ch">一</div><div class="ch">二</div>
+        <div class="ch">三</div><div class="ch">四</div><div class="ch">五</div><div class="ch">六</div>
       </div>
-      <div class="cal-grid" id="cal-body" style="margin-top:4px"></div>
-      <div style="display:flex;gap:10px;margin-top:12px;flex-wrap:wrap">
-        <span style="font-size:12px;color:var(--text-faint)">顏色代表當日最高痛度：</span>
-        <span class="badge badge-0" style="font-size:11px">0 不痛</span>
-        <span class="badge badge-1" style="font-size:11px">1 小痛</span>
-        <span class="badge badge-2" style="font-size:11px">2 中痛</span>
-        <span class="badge badge-3" style="font-size:11px">3 大痛</span>
+      <div class="cgrid" id="cal-body" style="margin-top:4px"></div>
+      <div style="display:flex;gap:8px;margin-top:12px;flex-wrap:wrap;align-items:center">
+        <span style="font-size:12px;color:var(--text-faint)">顏色代表最高痛度：</span>
+        <span class="badge b0">0 不痛</span><span class="badge b1">1 小痛</span>
+        <span class="badge b2">2 中痛</span><span class="badge b3">3 大痛</span>
       </div>
     </div>
   </div>
 
   <!-- 統計 -->
   <div id="panel-stats" class="panel">
-    <div class="stat-cards">
-      <div class="stat-card"><div class="stat-label">記錄天數</div><div class="stat-value" id="s-days" style="color:var(--accent)">0</div></div>
-      <div class="stat-card"><div class="stat-label">頭痛天數</div><div class="stat-value" id="s-pain-days" style="color:#ea580c">0</div></div>
-      <div class="stat-card"><div class="stat-label">總頭痛時數</div><div class="stat-value" id="s-hours" style="color:#7c3aed">0</div></div>
+    <div class="scards">
+      <div class="sc"><div class="sc-label">記錄天數</div><div class="sc-val" id="s-days" style="color:var(--accent)">0</div></div>
+      <div class="sc"><div class="sc-label">頭痛天數</div><div class="sc-val" id="s-pain-days" style="color:#ea580c">0</div></div>
+      <div class="sc"><div class="sc-label">總頭痛時數</div><div class="sc-val" id="s-hours" style="color:#7c3aed">0</div></div>
     </div>
     <div class="card">
-      <div class="card-title"><i class="ti ti-chart-bar"></i>最常出現的症狀</div>
-      <div class="bar-chart" id="sym-chart"></div>
+      <div class="ct"><i class="ti ti-chart-bar"></i>最常出現的症狀</div>
+      <div id="sym-chart"></div>
     </div>
     <div class="card">
-      <div class="card-title"><i class="ti ti-pill"></i>最常用藥</div>
-      <div class="bar-chart" id="drug-chart"></div>
+      <div class="ct"><i class="ti ti-pill"></i>最常用藥</div>
+      <div id="drug-chart"></div>
     </div>
   </div>
 </div>
@@ -366,8 +284,86 @@ header .subtitle { font-size: 13px; color: var(--text-muted); margin-top: 1px; }
 <div id="toast"></div>
 
 <script>
-// ─── Data ────────────────────────────────────────────────
-const SYMPTOMS = [
+const SB_URL='https://wrgqirulkecgmhghwyan.supabase.co';
+const SB_KEY='sb_publishable_c99A8Z1py3gVkK7pbUuYoA_cO7Fh9pp';
+
+let sess=null,user=null,allRec=[];
+let calY,calM;
+
+// ── Supabase fetch ──
+async function sb(path,opts={}){
+  const r=await fetch(SB_URL+path,{
+    ...opts,
+    headers:{
+      'apikey':SB_KEY,
+      'Authorization':'Bearer '+(sess?.access_token||SB_KEY),
+      'Content-Type':'application/json',
+      'Prefer':'return=representation',
+      ...(opts.headers||{})
+    }
+  });
+  if(!r.ok){const e=await r.json().catch(()=>({}));throw new Error(e.message||e.error_description||'錯誤');}
+  const t=await r.text();return t?JSON.parse(t):null;
+}
+
+// ── Auth ──
+async function doLogin(){
+  const email=document.getElementById('l-email').value.trim();
+  const pw=document.getElementById('l-pw').value;
+  document.getElementById('l-err').textContent='';
+  try{
+    const d=await sb('/auth/v1/token?grant_type=password',{method:'POST',body:JSON.stringify({email,password:pw})});
+    sess=d;user=d.user;
+    localStorage.setItem('hd_sess',JSON.stringify(d));
+    onLogin();
+  }catch(e){document.getElementById('l-err').textContent='登入失敗：'+e.message;}
+}
+
+async function doRegister(){
+  const email=document.getElementById('r-email').value.trim();
+  const pw=document.getElementById('r-pw').value;
+  const el=document.getElementById('r-err');
+  el.textContent='';el.className='lerr';
+  try{
+    await sb('/auth/v1/signup',{method:'POST',body:JSON.stringify({email,password:pw})});
+    el.className='lsuc';el.textContent='註冊成功！請查收確認信後登入。';
+  }catch(e){el.textContent='註冊失敗：'+e.message;}
+}
+
+async function doLogout(){
+  try{await sb('/auth/v1/logout',{method:'POST'});}catch(e){}
+  sess=null;user=null;allRec=[];
+  localStorage.removeItem('hd_sess');
+  document.getElementById('main-wrap').style.display='none';
+  document.getElementById('login-wrap').style.display='block';
+}
+
+function onLogin(){
+  document.getElementById('login-wrap').style.display='none';
+  document.getElementById('main-wrap').style.display='block';
+  document.getElementById('user-email').textContent=user.email;
+  init();
+}
+
+function showMode(m){
+  document.getElementById('mode-login').style.display=m==='login'?'block':'none';
+  document.getElementById('mode-register').style.display=m==='register'?'block':'none';
+}
+
+async function restoreSession(){
+  const s=localStorage.getItem('hd_sess');
+  if(!s)return;
+  try{
+    const old=JSON.parse(s);
+    const d=await sb('/auth/v1/token?grant_type=refresh_token',{method:'POST',body:JSON.stringify({refresh_token:old.refresh_token})});
+    sess=d;user=d.user;
+    localStorage.setItem('hd_sess',JSON.stringify(d));
+    onLogin();
+  }catch(e){localStorage.removeItem('hd_sess');}
+}
+
+// ── Data defs ──
+const SYMS=[
   {key:'nausea',label:'噁心',icon:'ti-mood-sick'},
   {key:'vomit',label:'嘔吐',icon:'ti-droplet'},
   {key:'photophobia',label:'對光線敏感',icon:'ti-sun'},
@@ -376,279 +372,216 @@ const SYMPTOMS = [
   {key:'unilateral',label:'單側頭痛',icon:'ti-arrows-left-right'},
   {key:'neck',label:'後頸痛',icon:'ti-spine'},
   {key:'facenumb',label:'臉麻',icon:'ti-face-mask'},
-  {key:'worse_activity',label:'活動加重',icon:'ti-run'}
+  {key:'worse',label:'活動加重',icon:'ti-run'}
 ];
-const AURAS = [
+const AURAS=[
   {key:'flash',label:'眼前閃光',icon:'ti-bolt'},
   {key:'blindspot',label:'部分視野缺失',icon:'ti-eye-off'}
 ];
-const OTHERS = [
+const OTHERS=[
   {key:'period',label:'生理期',icon:'ti-gender-female'},
   {key:'rls',label:'不寧腿',icon:'ti-leg'},
   {key:'insomnia',label:'失眠',icon:'ti-moon'},
   {key:'weather',label:'天氣劇變',icon:'ti-cloud-storm'}
 ];
-const DRUG_DEFAULTS = ['EVE A錠','','','','','','',''];
-const EFF_OPTS = [
-  {v:'',label:'—'},
-  {v:'0',label:'0 沒效'},
-  {v:'1',label:'1 稍有效'},
-  {v:'2',label:'2 有效'},
-  {v:'3',label:'3 非常有效'}
-];
+const EFFS=[{v:'',l:'—'},{v:'0',l:'0 沒效'},{v:'1',l:'1 稍有效'},{v:'2',l:'2 有效'},{v:'3',l:'3 非常有效'}];
 
-let pain = {morning:0, afternoon:0, evening:0, sleep:0};
-let symptoms = {}, aura = {}, other = {};
-let calYear, calMonth;
+let pain={morning:0,afternoon:0,evening:0,sleep:0};
+let syms={},aura={},other={};
 
-// ─── Storage ─────────────────────────────────────────────
-function loadAll() {
-  try { return JSON.parse(localStorage.getItem('hd_records') || '[]'); } catch { return []; }
-}
-function saveAll(arr) { localStorage.setItem('hd_records', JSON.stringify(arr)); }
+function dstr(d){return d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')+'-'+String(d.getDate()).padStart(2,'0');}
+function mpain(p){return Math.max(p.morning||0,p.afternoon||0,p.evening||0,p.sleep||0);}
 
-// ─── Init ─────────────────────────────────────────────────
-function init() {
-  const d = new Date();
-  document.getElementById('entry-date').value = toDateStr(d);
-  calYear = d.getFullYear(); calMonth = d.getMonth();
-  renderAllPainBtns();
-  renderToggles('sym-grid', SYMPTOMS, symptoms);
-  renderToggles('aura-grid', AURAS, aura);
-  renderToggles('other-grid', OTHERS, other);
+// ── Init ──
+async function init(){
+  const d=new Date();
+  document.getElementById('entry-date').value=dstr(d);
+  calY=d.getFullYear();calM=d.getMonth();
+  renderPainAll();
+  renderToggles('sym-grid',SYMS,syms);
+  renderToggles('aura-grid',AURAS,aura);
+  renderToggles('other-grid',OTHERS,other);
   renderDrugs();
-  renderHistory();
-  renderCalendar();
-  renderStats();
+  await loadRec();
+  renderHistory();renderCalendar();renderStats();
 }
 
-function toDateStr(d) {
-  return d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')+'-'+String(d.getDate()).padStart(2,'0');
+async function loadRec(){
+  try{
+    const d=await sb('/rest/v1/headache_records?user_id=eq.'+encodeURIComponent(user.id)+'&order=date.desc',{headers:{'Accept':'application/json'}});
+    allRec=(d||[]).map(r=>({...r.data,date:r.date}));
+  }catch(e){showToast('載入失敗：'+e.message);}
 }
 
-// ─── Tabs ─────────────────────────────────────────────────
-function switchTab(name) {
-  document.querySelectorAll('.tab').forEach((t,i)=>{
-    t.classList.toggle('active', ['entry','history','calendar','stats'][i]===name);
-  });
+// ── Tabs ──
+function switchTab(name){
+  document.querySelectorAll('.tab').forEach((t,i)=>t.classList.toggle('active',['entry','history','calendar','stats'][i]===name));
   document.querySelectorAll('.panel').forEach(p=>p.classList.remove('active'));
   document.getElementById('panel-'+name).classList.add('active');
-  if(name==='calendar') renderCalendar();
-  if(name==='stats') renderStats();
-  if(name==='history') renderHistory();
+  if(name==='calendar')renderCalendar();
+  if(name==='stats')renderStats();
+  if(name==='history')renderHistory();
 }
 
-// ─── Pain buttons ─────────────────────────────────────────
-function renderAllPainBtns() {
-  [{id:'pb-morning',key:'morning'},{id:'pb-afternoon',key:'afternoon'},
-   {id:'pb-evening',key:'evening'},{id:'pb-sleep',key:'sleep'}]
-  .forEach(({id,key}) => renderPainBtns(id, key));
+// ── Pain ──
+function renderPainAll(){
+  [{id:'pb-morning',k:'morning'},{id:'pb-afternoon',k:'afternoon'},{id:'pb-evening',k:'evening'},{id:'pb-sleep',k:'sleep'}]
+  .forEach(({id,k})=>renderPain(id,k));
 }
-function renderPainBtns(id, key) {
-  const el = document.getElementById(id);
-  el.innerHTML = '';
+function renderPain(id,k){
+  const el=document.getElementById(id);el.innerHTML='';
   for(let i=0;i<=3;i++){
-    const b = document.createElement('button');
-    b.className = 'pain-btn' + (pain[key]===i ? ' sel-'+i : '');
-    b.textContent = i;
-    b.setAttribute('aria-label', `${key} 痛度 ${i}`);
-    b.onclick = () => { pain[key]=i; renderPainBtns(id,key); };
+    const b=document.createElement('button');
+    b.className='pbtn'+(pain[k]===i?' s'+i:'');
+    b.textContent=i;
+    b.onclick=()=>{pain[k]=i;renderPain(id,k);};
     el.appendChild(b);
   }
 }
 
-// ─── Toggle grids ────────────────────────────────────────
-function renderToggles(gridId, list, state) {
-  const el = document.getElementById(gridId);
-  el.innerHTML = '';
-  list.forEach(item => {
-    const b = document.createElement('button');
-    b.className = 'toggle-btn' + (state[item.key] ? ' on' : '');
-    b.innerHTML = `<i class="ti ${item.icon}" aria-hidden="true"></i>${item.label}`;
-    b.onclick = () => {
-      state[item.key] = !state[item.key];
-      b.className = 'toggle-btn' + (state[item.key] ? ' on' : '');
-    };
+function renderToggles(gid,list,state){
+  const el=document.getElementById(gid);el.innerHTML='';
+  list.forEach(item=>{
+    const b=document.createElement('button');
+    b.className='tbtn'+(state[item.key]?' on':'');
+    b.innerHTML=`<i class="ti ${item.icon}" aria-hidden="true"></i>${item.label}`;
+    b.onclick=()=>{state[item.key]=!state[item.key];b.className='tbtn'+(state[item.key]?' on':'');};
     el.appendChild(b);
   });
 }
 
-// ─── Drugs ───────────────────────────────────────────────
-function renderDrugs() {
-  const tbody = document.getElementById('drug-body');
-  tbody.innerHTML = '';
-  DRUG_DEFAULTS.forEach((def,i) => {
-    const tr = document.createElement('tr');
-    tr.innerHTML = `
-      <td class="drug-num">${i+1}</td>
+function renderDrugs(){
+  const tb=document.getElementById('drug-body');tb.innerHTML='';
+  for(let i=0;i<8;i++){
+    const tr=document.createElement('tr');
+    tr.innerHTML=`<td class="dnum">${i+1}</td>
       <td><input type="text" id="dn-${i}" placeholder="藥物名稱" value="${i===0?'EVE A錠':''}"></td>
       <td><input type="text" id="dd-${i}" placeholder="劑量"></td>
-      <td>
-        <select id="de-${i}">
-          ${EFF_OPTS.map(o=>`<option value="${o.v}">${o.label}</option>`).join('')}
-        </select>
-      </td>`;
-    tbody.appendChild(tr);
-  });
+      <td><select id="de-${i}">${EFFS.map(o=>`<option value="${o.v}">${o.l}</option>`).join('')}</select></td>`;
+    tb.appendChild(tr);
+  }
 }
 
-// ─── Save ────────────────────────────────────────────────
-function saveEntry() {
-  const date = document.getElementById('entry-date').value;
-  if(!date){ showToast('請選擇日期'); return; }
-  const drugs = DRUG_DEFAULTS.map((_,i)=>({
-    name: document.getElementById('dn-'+i).value.trim(),
-    dose: document.getElementById('dd-'+i).value.trim(),
-    eff:  document.getElementById('de-'+i).value
+// ── Save ──
+async function saveEntry(){
+  const date=document.getElementById('entry-date').value;
+  if(!date){showToast('請選擇日期');return;}
+  const btn=document.getElementById('save-btn');
+  btn.disabled=true;btn.innerHTML='<i class="ti ti-loader-2"></i> 儲存中…';
+  const drugs=[...Array(8)].map((_,i)=>({
+    name:document.getElementById('dn-'+i).value.trim(),
+    dose:document.getElementById('dd-'+i).value.trim(),
+    eff:document.getElementById('de-'+i).value
   })).filter(d=>d.name);
-
-  const entry = {
-    date,
-    pain: {...pain},
-    hours: parseFloat(document.getElementById('total-hours').value)||0,
-    visit: document.getElementById('visit-neuro').checked,
-    symptoms: {...symptoms},
-    aura: {...aura},
-    other: {...other},
-    drugs
-  };
-
-  let all = loadAll().filter(r=>r.date!==date);
-  all.push(entry);
-  all.sort((a,b)=>b.date.localeCompare(a.date));
-  saveAll(all);
-  showToast('✓ 已儲存 '+date);
-  renderHistory();
-  renderStats();
+  const data={pain:{...pain},hours:parseFloat(document.getElementById('total-hours').value)||0,
+    visit:document.getElementById('visit-neuro').checked,
+    symptoms:{...syms},aura:{...aura},other:{...other},drugs};
+  try{
+    await sb('/rest/v1/headache_records',{
+      method:'POST',
+      headers:{'Prefer':'resolution=merge-duplicates,return=representation'},
+      body:JSON.stringify({user_id:user.id,date,data})
+    });
+    await loadRec();
+    renderHistory();renderStats();
+    showToast('✓ 已儲存 '+date);
+  }catch(e){showToast('儲存失敗：'+e.message);}
+  btn.disabled=false;btn.innerHTML='<i class="ti ti-device-floppy"></i> 儲存今日紀錄';
 }
 
-// ─── History ─────────────────────────────────────────────
-function maxPain(p){ return Math.max(p.morning,p.afternoon,p.evening,p.sleep); }
-
-function symLabels(entry) {
-  const all = [...SYMPTOMS,...AURAS,...OTHERS];
-  return Object.entries({...entry.symptoms,...entry.aura,...entry.other})
-    .filter(([,v])=>v)
-    .map(([k])=>{ const f=all.find(s=>s.key===k); return f?f.label:k; });
+// ── History ──
+function slabels(r){
+  const all=[...SYMS,...AURAS,...OTHERS];
+  return Object.entries({...r.symptoms,...r.aura,...r.other}).filter(([,v])=>v).map(([k])=>{const f=all.find(s=>s.key===k);return f?f.label:k;});
 }
 
-function renderHistory() {
-  const q = (document.getElementById('search-input')?.value||'').toLowerCase();
-  let all = loadAll();
-  if(q) all = all.filter(r => r.date.includes(q) || symLabels(r).some(s=>s.includes(q)));
-  const el = document.getElementById('history-list');
-  if(!all.length){ el.innerHTML='<div class="rec-empty">尚無紀錄</div>'; return; }
-  el.innerHTML = '';
-  all.forEach(r => {
-    const mx = maxPain(r.pain);
-    const syms = symLabels(r);
-    const div = document.createElement('div');
-    div.className = 'rec-item';
-    div.innerHTML = `
-      <div class="rec-header">
-        <span class="rec-date">${r.date}</span>
-        <div class="rec-meta">
-          ${r.visit?'<span class="badge badge-visit">就診</span>':''}
-          <span class="badge badge-${mx}">最高 ${mx} 級</span>
-          <span style="font-size:12px;color:var(--text-faint)">${r.hours}h</span>
-          <button class="del-btn" onclick="deleteEntry('${r.date}',event)" title="刪除此筆紀錄">
-            <i class="ti ti-trash" aria-label="刪除"></i>
-          </button>
-        </div>
-      </div>
-      ${syms.length?`<div class="sym-tags">${syms.map(s=>`<span class="sym-tag">${s}</span>`).join('')}</div>`:''}
-      ${r.drugs.length?`<div class="drug-line">💊 ${r.drugs.map(d=>d.name+(d.dose?' '+d.dose:'')).join('、')}</div>`:''}
-    `;
+function renderHistory(){
+  const q=(document.getElementById('search-input')?.value||'').toLowerCase();
+  let list=allRec;
+  if(q)list=list.filter(r=>r.date.includes(q)||slabels(r).some(s=>s.includes(q)));
+  const el=document.getElementById('history-list');
+  if(!list.length){el.innerHTML='<div class="rec-empty">尚無紀錄</div>';return;}
+  el.innerHTML='';
+  list.forEach(r=>{
+    const mx=mpain(r.pain||{});const sl=slabels(r);
+    const div=document.createElement('div');div.className='rec';
+    div.innerHTML=`<div class="rec-hd">
+      <span class="rec-date">${r.date}</span>
+      <div class="rec-meta">
+        ${r.visit?'<span class="badge bv">就診</span>':''}
+        <span class="badge b${mx}">最高 ${mx} 級</span>
+        <span style="font-size:12px;color:var(--text-faint)">${r.hours||0}h</span>
+        <button class="del-btn" onclick="delEntry('${r.date}',event)"><i class="ti ti-trash" aria-label="刪除"></i></button>
+      </div></div>
+      ${sl.length?`<div class="stags">${sl.map(s=>`<span class="stag">${s}</span>`).join('')}</div>`:''}
+      ${(r.drugs||[]).length?`<div class="drug-ln">💊 ${r.drugs.map(d=>d.name+(d.dose?' '+d.dose:'')).join('、')}</div>`:''}`;
     el.appendChild(div);
   });
 }
 
-function deleteEntry(date, e) {
+async function delEntry(date,e){
   e.stopPropagation();
-  if(!confirm('確定刪除 '+date+' 的紀錄？')) return;
-  saveAll(loadAll().filter(r=>r.date!==date));
-  renderHistory(); renderStats(); renderCalendar();
-  showToast('已刪除');
+  if(!confirm('確定刪除 '+date+' 的紀錄？'))return;
+  try{
+    await sb('/rest/v1/headache_records?user_id=eq.'+encodeURIComponent(user.id)+'&date=eq.'+date,{method:'DELETE'});
+    await loadRec();renderHistory();renderStats();renderCalendar();
+    showToast('已刪除');
+  }catch(e){showToast('刪除失敗：'+e.message);}
 }
 
-// ─── Calendar ────────────────────────────────────────────
-function calPrev(){ calMonth--; if(calMonth<0){calMonth=11;calYear--;} renderCalendar(); }
-function calNext(){ calMonth++; if(calMonth>11){calMonth=0;calYear++;} renderCalendar(); }
-
-function renderCalendar() {
-  const title = document.getElementById('cal-title');
-  title.textContent = calYear+'年 '+(calMonth+1)+'月';
-  const body = document.getElementById('cal-body');
-  body.innerHTML = '';
-  const map = {};
-  loadAll().forEach(r=>{ map[r.date]=r; });
-  const first = new Date(calYear,calMonth,1).getDay();
-  const days = new Date(calYear,calMonth+1,0).getDate();
-  const todayStr = toDateStr(new Date());
-  for(let i=0;i<first;i++){
-    const d=document.createElement('div');d.className='cal-day empty';body.appendChild(d);
-  }
+// ── Calendar ──
+function calPrev(){calM--;if(calM<0){calM=11;calY--;}renderCalendar();}
+function calNext(){calM++;if(calM>11){calM=0;calY++;}renderCalendar();}
+function renderCalendar(){
+  document.getElementById('cal-title').textContent=calY+'年 '+(calM+1)+'月';
+  const body=document.getElementById('cal-body');body.innerHTML='';
+  const map={};allRec.forEach(r=>map[r.date]=r);
+  const first=new Date(calY,calM,1).getDay();
+  const days=new Date(calY,calM+1,0).getDate();
+  const today=dstr(new Date());
+  for(let i=0;i<first;i++){const d=document.createElement('div');d.className='cd empty';body.appendChild(d);}
   for(let d=1;d<=days;d++){
-    const ds = calYear+'-'+String(calMonth+1).padStart(2,'0')+'-'+String(d).padStart(2,'0');
-    const rec = map[ds];
-    const el = document.createElement('div');
-    let cls = 'cal-day';
-    if(rec){ cls+=' has-data pain-'+maxPain(rec.pain); }
-    if(ds===todayStr) cls+=' today';
-    el.className=cls;
+    const ds=calY+'-'+String(calM+1).padStart(2,'0')+'-'+String(d).padStart(2,'0');
+    const rec=map[ds];
+    const el=document.createElement('div');
+    el.className='cd'+(rec?' pain-'+mpain(rec.pain||{}):'')+(ds===today?' today':'');
     el.textContent=d;
-    if(rec) el.title=`${ds} 最高痛度:${maxPain(rec.pain)} 時數:${rec.hours}h`;
+    if(rec)el.title=`${ds} 最高:${mpain(rec.pain||{})}級 ${rec.hours||0}h`;
     body.appendChild(el);
   }
 }
 
-// ─── Stats ───────────────────────────────────────────────
-function renderStats() {
-  const all = loadAll();
-  document.getElementById('s-days').textContent = all.length;
-  const painDays = all.filter(r=>maxPain(r.pain)>0).length;
-  document.getElementById('s-pain-days').textContent = painDays;
-  const totalH = all.reduce((s,r)=>s+r.hours,0);
-  document.getElementById('s-hours').textContent = totalH.toFixed(1);
-
-  const allSym = [...SYMPTOMS,...AURAS,...OTHERS];
-  const symCount = {};
-  allSym.forEach(s=>symCount[s.key]=0);
-  all.forEach(r=>{
-    Object.entries({...r.symptoms,...r.aura,...r.other}).forEach(([k,v])=>{ if(v) symCount[k]=(symCount[k]||0)+1; });
-  });
-  const topSym = allSym.map(s=>({label:s.label,count:symCount[s.key]||0}))
-    .filter(s=>s.count>0).sort((a,b)=>b.count-a.count).slice(0,6);
-  renderBarChart('sym-chart', topSym);
-
-  const drugCount = {};
-  all.forEach(r=>{ (r.drugs||[]).forEach(d=>{ if(d.name) drugCount[d.name]=(drugCount[d.name]||0)+1; }); });
-  const topDrug = Object.entries(drugCount).map(([label,count])=>({label,count}))
-    .sort((a,b)=>b.count-a.count).slice(0,5);
-  renderBarChart('drug-chart', topDrug);
+// ── Stats ──
+function renderStats(){
+  document.getElementById('s-days').textContent=allRec.length;
+  document.getElementById('s-pain-days').textContent=allRec.filter(r=>mpain(r.pain||{})>0).length;
+  document.getElementById('s-hours').textContent=allRec.reduce((s,r)=>s+(r.hours||0),0).toFixed(1);
+  const all=[...SYMS,...AURAS,...OTHERS];
+  const sc={};all.forEach(s=>sc[s.key]=0);
+  allRec.forEach(r=>Object.entries({...r.symptoms,...r.aura,...r.other}).forEach(([k,v])=>{if(v)sc[k]=(sc[k]||0)+1;}));
+  barChart('sym-chart',all.map(s=>({label:s.label,count:sc[s.key]||0})).filter(s=>s.count>0).sort((a,b)=>b.count-a.count).slice(0,6));
+  const dc={};allRec.forEach(r=>(r.drugs||[]).forEach(d=>{if(d.name)dc[d.name]=(dc[d.name]||0)+1;}));
+  barChart('drug-chart',Object.entries(dc).map(([l,c])=>({label:l,count:c})).sort((a,b)=>b.count-a.count).slice(0,5));
+}
+function barChart(id,data){
+  const el=document.getElementById(id);
+  if(!data.length){el.innerHTML='<div class="rec-empty" style="padding:.5rem">暫無資料</div>';return;}
+  const mx=data[0].count;
+  el.innerHTML=data.map(d=>`<div class="bar-row">
+    <span class="bar-label" title="${d.label}">${d.label}</span>
+    <div class="bar-track"><div class="bar-fill" style="width:${mx?Math.round(d.count/mx*100):0}%"></div></div>
+    <span class="bar-cnt">${d.count}</span></div>`).join('');
 }
 
-function renderBarChart(id, data) {
-  const el = document.getElementById(id);
-  if(!data.length){ el.innerHTML='<div class="rec-empty" style="padding:.5rem">暫無資料</div>'; return; }
-  const max = data[0].count;
-  el.innerHTML = data.map(d=>`
-    <div class="bar-row">
-      <span class="bar-label" title="${d.label}">${d.label}</span>
-      <div class="bar-track"><div class="bar-fill" style="width:${max?Math.round(d.count/max*100):0}%"></div></div>
-      <span class="bar-count">${d.count}</span>
-    </div>`).join('');
+function showToast(msg){
+  const t=document.getElementById('toast');t.textContent=msg;t.classList.add('show');
+  setTimeout(()=>t.classList.remove('show'),2500);
 }
 
-// ─── Toast ───────────────────────────────────────────────
-function showToast(msg) {
-  const t = document.getElementById('toast');
-  t.textContent = msg; t.classList.add('show');
-  setTimeout(()=>t.classList.remove('show'), 2200);
-}
+// 還需要在 Supabase 設 unique constraint，讓 upsert 能正常運作
+// ALTER TABLE headache_records ADD CONSTRAINT unique_user_date UNIQUE (user_id, date);
 
-// ─── Start ───────────────────────────────────────────────
-init();
+restoreSession();
 </script>
 </body>
 </html>
