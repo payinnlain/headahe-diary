@@ -22,10 +22,9 @@
 body{font-family:'Noto Sans TC',sans-serif;background:var(--bg);color:var(--text);font-size:15px;line-height:1.6;min-height:100vh}
 .wrap{max-width:680px;margin:0 auto;padding:1.5rem 1rem 3rem}
 
-/* 密碼畫面 */
 #pw-screen{display:flex;align-items:center;justify-content:center;min-height:100vh;padding:1rem}
 .pw-box{background:var(--surface);border:1px solid var(--border);border-radius:var(--r);padding:2rem 1.5rem;width:100%;max-width:320px;text-align:center}
-.pw-box i{font-size:36px;color:var(--accent)}
+.pw-box i.logo{font-size:36px;color:var(--accent)}
 .pw-box h1{font-size:18px;font-weight:600;margin:.75rem 0 1.5rem}
 .pw-box input{width:100%;font-family:inherit;font-size:20px;letter-spacing:6px;text-align:center;padding:10px;border:1px solid var(--border);border-radius:var(--rs);color:var(--text);background:var(--surface);margin-bottom:.75rem}
 .pw-box input:focus{outline:2px solid var(--accent);outline-offset:1px;border-color:transparent}
@@ -33,11 +32,17 @@ body{font-family:'Noto Sans TC',sans-serif;background:var(--bg);color:var(--text
 .pw-btn:hover{background:#1d4ed8}
 .pw-err{font-size:13px;color:#dc2626;margin-top:.5rem;min-height:18px}
 
-/* 主畫面 */
 #main-screen{display:none}
 .topbar{display:flex;align-items:center;gap:10px;margin-bottom:1.5rem;padding-bottom:1.25rem;border-bottom:1px solid var(--border)}
 .topbar-title{font-size:18px;font-weight:600;flex:1}
-.lock-btn{font-size:13px;color:var(--text-muted);background:none;border:1px solid var(--border);border-radius:var(--rs);padding:4px 10px;cursor:pointer;font-family:inherit}
+.sync-badge{display:inline-flex;align-items:center;gap:5px;font-size:12px;padding:3px 10px;border-radius:20px;border:1px solid var(--border);color:var(--text-muted);background:var(--surface);white-space:nowrap}
+.sync-badge.syncing{color:#0f6e56;border-color:#5dcaa5;background:#e1f5ee}
+.sync-badge.ok{color:#0f6e56;border-color:#5dcaa5;background:#e1f5ee}
+.sync-badge.err{color:#991b1b;border-color:#ef4444;background:#fee2e2}
+.sync-dot{width:7px;height:7px;border-radius:50%;background:currentColor;flex-shrink:0}
+.sync-dot.spin{animation:pulse 1s ease-in-out infinite}
+@keyframes pulse{0%,100%{opacity:1}50%{opacity:.3}}
+.lock-btn{font-size:13px;color:var(--text-muted);background:none;border:1px solid var(--border);border-radius:var(--rs);padding:4px 10px;cursor:pointer;font-family:inherit;white-space:nowrap}
 .lock-btn:hover{border-color:var(--border-hover)}
 
 .tabs{display:flex;gap:4px;margin-bottom:1.5rem;background:var(--surface);border:1px solid var(--border);border-radius:var(--r);padding:4px}
@@ -49,6 +54,13 @@ body{font-family:'Noto Sans TC',sans-serif;background:var(--bg);color:var(--text
 .card{background:var(--surface);border:1px solid var(--border);border-radius:var(--r);padding:1rem 1.25rem;margin-bottom:.875rem}
 .ct{font-size:13px;font-weight:500;color:var(--text-muted);margin-bottom:.875rem;display:flex;align-items:center;gap:6px}
 .ct i{font-size:15px}
+
+/* 編輯模式提示 */
+.editing-bar{display:none;background:#eff6ff;border:1px solid #93c5fd;border-radius:var(--rs);padding:8px 14px;margin-bottom:1rem;font-size:13px;color:#1d4ed8;align-items:center;gap:8px}
+.editing-bar.show{display:flex}
+.editing-bar i{font-size:15px}
+.cancel-edit{margin-left:auto;background:none;border:1px solid #93c5fd;border-radius:var(--rs);padding:3px 10px;font-size:12px;color:#1d4ed8;cursor:pointer;font-family:inherit}
+.cancel-edit:hover{background:#dbeafe}
 
 .date-bar{display:flex;align-items:center;gap:10px;margin-bottom:1.25rem}
 .date-bar input[type=date]{font-family:inherit;font-size:14px;padding:7px 10px;border:1px solid var(--border);border-radius:var(--rs);background:var(--surface);color:var(--text);cursor:pointer}
@@ -86,8 +98,10 @@ body{font-family:'Noto Sans TC',sans-serif;background:var(--bg);color:var(--text
 .save-btn:hover{background:#1d4ed8}
 .save-btn:disabled{background:#93c5fd;cursor:not-allowed}
 
+/* 紀錄列表 */
 .rec-empty{font-size:13px;color:var(--text-faint);text-align:center;padding:1.5rem 0}
-.rec{background:var(--surface);border:1px solid var(--border);border-radius:var(--r);padding:10px 14px;margin-bottom:8px}
+.rec{background:var(--surface);border:1px solid var(--border);border-radius:var(--r);padding:10px 14px;margin-bottom:8px;cursor:pointer;transition:border-color .15s}
+.rec:hover{border-color:var(--border-hover)}
 .rec-hd{display:flex;justify-content:space-between;align-items:center}
 .rec-date{font-size:14px;font-weight:500}
 .rec-meta{display:flex;align-items:center;gap:6px}
@@ -98,6 +112,9 @@ body{font-family:'Noto Sans TC',sans-serif;background:var(--bg);color:var(--text
 .stags{display:flex;flex-wrap:wrap;gap:4px;margin-top:6px}
 .stag{font-size:11px;padding:2px 7px;border-radius:20px;background:#f1f5f9;color:#475569}
 .drug-ln{font-size:12px;color:var(--text-muted);margin-top:4px}
+.rec-actions{display:flex;align-items:center;gap:4px}
+.edit-btn{background:none;border:none;cursor:pointer;color:var(--text-faint);font-size:16px;padding:2px 6px;border-radius:4px}
+.edit-btn:hover{color:var(--accent);background:var(--accent-bg)}
 .del-btn{background:none;border:none;cursor:pointer;color:var(--text-faint);font-size:16px;padding:2px 6px;border-radius:4px}
 .del-btn:hover{color:#dc2626;background:#fee2e2}
 
@@ -135,10 +152,9 @@ body{font-family:'Noto Sans TC',sans-serif;background:var(--bg);color:var(--text
 </head>
 <body>
 
-<!-- 密碼畫面 -->
 <div id="pw-screen">
   <div class="pw-box">
-    <i class="ti ti-notes-medical" aria-hidden="true"></i>
+    <i class="ti ti-notes-medical logo" aria-hidden="true"></i>
     <h1>頭痛日記</h1>
     <input type="password" id="pw-input" placeholder="••••" maxlength="20"
       onkeydown="if(event.key==='Enter')checkPw()">
@@ -147,11 +163,14 @@ body{font-family:'Noto Sans TC',sans-serif;background:var(--bg);color:var(--text
   </div>
 </div>
 
-<!-- 主畫面 -->
 <div class="wrap" id="main-screen">
   <div class="topbar">
     <i class="ti ti-notes-medical" style="font-size:20px;color:var(--accent)" aria-hidden="true"></i>
     <span class="topbar-title">頭痛日記</span>
+    <span class="sync-badge" id="sync-badge">
+      <span class="sync-dot" id="sync-dot"></span>
+      <span id="sync-text">載入中</span>
+    </span>
     <button class="lock-btn" onclick="lockScreen()"><i class="ti ti-lock" style="font-size:13px"></i> 鎖定</button>
   </div>
 
@@ -162,8 +181,14 @@ body{font-family:'Noto Sans TC',sans-serif;background:var(--bg);color:var(--text
     <button class="tab" onclick="switchTab('stats')"><i class="ti ti-chart-bar"></i><span>統計</span></button>
   </div>
 
-  <!-- 今日記錄 -->
   <div id="panel-entry" class="panel active">
+    <!-- 編輯模式提示 -->
+    <div class="editing-bar" id="editing-bar">
+      <i class="ti ti-pencil" aria-hidden="true"></i>
+      <span id="editing-label">編輯模式</span>
+      <button class="cancel-edit" onclick="cancelEdit()">取消編輯</button>
+    </div>
+
     <div class="date-bar">
       <i class="ti ti-calendar-event" style="color:var(--text-faint)" aria-hidden="true"></i>
       <input type="date" id="entry-date">
@@ -210,7 +235,6 @@ body{font-family:'Noto Sans TC',sans-serif;background:var(--bg);color:var(--text
     </button>
   </div>
 
-  <!-- 過往紀錄 -->
   <div id="panel-history" class="panel">
     <div class="card" style="margin-bottom:.875rem">
       <div style="display:flex;align-items:center;gap:8px">
@@ -219,10 +243,12 @@ body{font-family:'Noto Sans TC',sans-serif;background:var(--bg);color:var(--text
           style="flex:1;border:none;outline:none;font-family:inherit;font-size:14px;color:var(--text);background:transparent">
       </div>
     </div>
+    <div style="font-size:12px;color:var(--text-faint);margin-bottom:.75rem;padding:0 2px">
+      <i class="ti ti-pencil" style="font-size:13px;vertical-align:-2px"></i> 點鉛筆圖示可編輯該筆紀錄
+    </div>
     <div id="history-list"></div>
   </div>
 
-  <!-- 月曆 -->
   <div id="panel-calendar" class="panel">
     <div class="card">
       <div class="cal-nav">
@@ -243,7 +269,6 @@ body{font-family:'Noto Sans TC',sans-serif;background:var(--bg);color:var(--text
     </div>
   </div>
 
-  <!-- 統計 -->
   <div id="panel-stats" class="panel">
     <div class="scards">
       <div class="sc"><div class="sc-label">記錄天數</div><div class="sc-val" id="s-days" style="color:var(--accent)">0</div></div>
@@ -269,49 +294,44 @@ const SB_URL = 'https://wrgqirulkecgmhghwyan.supabase.co';
 const SB_KEY = 'sb_publishable_c99A8Z1py3gVkK7pbUuYoA_cO7Fh9pp';
 const USER_ID = 'headache_diary_user';
 
-// ── 密碼 ──
+function setSync(state, text) {
+  const badge=document.getElementById('sync-badge');
+  const dot=document.getElementById('sync-dot');
+  badge.className='sync-badge '+state;
+  dot.className='sync-dot'+(state==='syncing'?' spin':'');
+  document.getElementById('sync-text').textContent=text;
+}
+
 function checkPw() {
-  const v = document.getElementById('pw-input').value;
-  if(v === PW) {
+  const v=document.getElementById('pw-input').value;
+  if(v===PW){
     sessionStorage.setItem('hd_auth','1');
-    document.getElementById('pw-screen').style.display = 'none';
-    document.getElementById('main-screen').style.display = 'block';
+    document.getElementById('pw-screen').style.display='none';
+    document.getElementById('main-screen').style.display='block';
     init();
   } else {
-    document.getElementById('pw-err').textContent = '密碼錯誤';
-    document.getElementById('pw-input').value = '';
+    document.getElementById('pw-err').textContent='密碼錯誤';
+    document.getElementById('pw-input').value='';
   }
 }
-function lockScreen() {
+function lockScreen(){
   sessionStorage.removeItem('hd_auth');
-  document.getElementById('main-screen').style.display = 'none';
-  document.getElementById('pw-screen').style.display = 'flex';
-  document.getElementById('pw-input').value = '';
-}
-// 自動恢復
-if(sessionStorage.getItem('hd_auth') === '1') {
-  document.getElementById('pw-screen').style.display = 'none';
-  document.getElementById('main-screen').style.display = 'block';
+  document.getElementById('main-screen').style.display='none';
+  document.getElementById('pw-screen').style.display='flex';
+  document.getElementById('pw-input').value='';
 }
 
-// ── Supabase ──
-async function sb(path, opts={}) {
-  const r = await fetch(SB_URL + path, {
-    ...opts,
-    headers: {
-      'apikey': SB_KEY,
-      'Authorization': 'Bearer ' + SB_KEY,
-      'Content-Type': 'application/json',
-      'Prefer': 'return=representation',
-      ...(opts.headers||{})
-    }
-  });
-  if(!r.ok) { const e = await r.json().catch(()=>({})); throw new Error(e.message||'錯誤'); }
-  const t = await r.text(); return t ? JSON.parse(t) : null;
+async function sb(path,opts={}){
+  const r=await fetch(SB_URL+path,{...opts,headers:{
+    'apikey':SB_KEY,'Authorization':'Bearer '+SB_KEY,
+    'Content-Type':'application/json','Prefer':'return=representation',
+    ...(opts.headers||{})
+  }});
+  if(!r.ok){const e=await r.json().catch(()=>({}));throw new Error(e.message||'錯誤');}
+  const t=await r.text();return t?JSON.parse(t):null;
 }
 
-// ── 資料定義 ──
-const SYMS = [
+const SYMS=[
   {key:'nausea',label:'噁心',icon:'ti-mood-sick'},
   {key:'vomit',label:'嘔吐',icon:'ti-droplet'},
   {key:'photophobia',label:'對光線敏感',icon:'ti-sun'},
@@ -322,63 +342,64 @@ const SYMS = [
   {key:'facenumb',label:'臉麻',icon:'ti-face-mask'},
   {key:'worse',label:'活動加重',icon:'ti-run'}
 ];
-const AURAS = [
+const AURAS=[
   {key:'flash',label:'眼前閃光',icon:'ti-bolt'},
   {key:'blindspot',label:'部分視野缺失',icon:'ti-eye-off'}
 ];
-const OTHERS = [
+const OTHERS=[
   {key:'period',label:'生理期',icon:'ti-gender-female'},
   {key:'rls',label:'不寧腿',icon:'ti-leg'},
   {key:'insomnia',label:'失眠',icon:'ti-moon'},
   {key:'weather',label:'天氣劇變',icon:'ti-cloud-storm'}
 ];
-const EFFS = [{v:'',l:'—'},{v:'0',l:'0 沒效'},{v:'1',l:'1 稍有效'},{v:'2',l:'2 有效'},{v:'3',l:'3 非常有效'}];
+const EFFS=[{v:'',l:'—'},{v:'0',l:'0 沒效'},{v:'1',l:'1 稍有效'},{v:'2',l:'2 有效'},{v:'3',l:'3 非常有效'}];
 
 let pain={morning:0,afternoon:0,evening:0,sleep:0};
 let syms={},aura={},other={},allRec=[];
 let calY,calM;
+let isEditing=false;
 
 function dstr(d){return d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')+'-'+String(d.getDate()).padStart(2,'0');}
 function mpain(p){return Math.max(p.morning||0,p.afternoon||0,p.evening||0,p.sleep||0);}
 
-// ── Init ──
-async function init() {
-  const d = new Date();
-  document.getElementById('entry-date').value = dstr(d);
-  calY = d.getFullYear(); calM = d.getMonth();
+async function init(){
+  const d=new Date();
+  document.getElementById('entry-date').value=dstr(d);
+  calY=d.getFullYear();calM=d.getMonth();
   renderPainAll();
-  renderToggles('sym-grid', SYMS, syms);
-  renderToggles('aura-grid', AURAS, aura);
-  renderToggles('other-grid', OTHERS, other);
+  renderToggles('sym-grid',SYMS,syms);
+  renderToggles('aura-grid',AURAS,aura);
+  renderToggles('other-grid',OTHERS,other);
   renderDrugs();
   await loadRec();
-  renderHistory(); renderCalendar(); renderStats();
+  renderHistory();renderCalendar();renderStats();
 }
 
-async function loadRec() {
-  try {
-    const d = await sb('/rest/v1/headache_records?user_id=eq.'+USER_ID+'&order=date.desc', {headers:{'Accept':'application/json'}});
-    allRec = (d||[]).map(r=>({...r.data, date:r.date}));
-  } catch(e) { showToast('載入失敗：'+e.message); }
+async function loadRec(){
+  setSync('syncing','同步中');
+  try{
+    const d=await sb('/rest/v1/headache_records?user_id=eq.'+USER_ID+'&order=date.desc',{headers:{'Accept':'application/json'}});
+    allRec=(d||[]).map(r=>({...r.data,date:r.date}));
+    const now=new Date();
+    setSync('ok','已同步 '+String(now.getHours()).padStart(2,'0')+':'+String(now.getMinutes()).padStart(2,'0'));
+  }catch(e){setSync('err','同步失敗');showToast('載入失敗：'+e.message);}
 }
 
-// ── Tabs ──
-function switchTab(name) {
+function switchTab(name){
   document.querySelectorAll('.tab').forEach((t,i)=>t.classList.toggle('active',['entry','history','calendar','stats'][i]===name));
   document.querySelectorAll('.panel').forEach(p=>p.classList.remove('active'));
   document.getElementById('panel-'+name).classList.add('active');
-  if(name==='calendar') renderCalendar();
-  if(name==='stats') renderStats();
-  if(name==='history') renderHistory();
+  if(name==='calendar')renderCalendar();
+  if(name==='stats')renderStats();
+  if(name==='history')renderHistory();
 }
 
-// ── Pain ──
-function renderPainAll() {
+function renderPainAll(){
   [{id:'pb-morning',k:'morning'},{id:'pb-afternoon',k:'afternoon'},{id:'pb-evening',k:'evening'},{id:'pb-sleep',k:'sleep'}]
   .forEach(({id,k})=>renderPain(id,k));
 }
-function renderPain(id,k) {
-  const el=document.getElementById(id); el.innerHTML='';
+function renderPain(id,k){
+  const el=document.getElementById(id);el.innerHTML='';
   for(let i=0;i<=3;i++){
     const b=document.createElement('button');
     b.className='pbtn'+(pain[k]===i?' s'+i:'');
@@ -387,8 +408,8 @@ function renderPain(id,k) {
     el.appendChild(b);
   }
 }
-function renderToggles(gid,list,state) {
-  const el=document.getElementById(gid); el.innerHTML='';
+function renderToggles(gid,list,state){
+  const el=document.getElementById(gid);el.innerHTML='';
   list.forEach(item=>{
     const b=document.createElement('button');
     b.className='tbtn'+(state[item.key]?' on':'');
@@ -397,24 +418,69 @@ function renderToggles(gid,list,state) {
     el.appendChild(b);
   });
 }
-function renderDrugs() {
-  const tb=document.getElementById('drug-body'); tb.innerHTML='';
+function renderDrugs(drugs){
+  const tb=document.getElementById('drug-body');tb.innerHTML='';
   for(let i=0;i<8;i++){
+    const d=drugs&&drugs[i]?drugs[i]:{name:i===0?'EVE A錠':'',dose:'',eff:''};
     const tr=document.createElement('tr');
     tr.innerHTML=`<td class="dnum">${i+1}</td>
-      <td><input type="text" id="dn-${i}" placeholder="藥物名稱" value="${i===0?'EVE A錠':''}"></td>
-      <td><input type="text" id="dd-${i}" placeholder="劑量"></td>
-      <td><select id="de-${i}">${EFFS.map(o=>`<option value="${o.v}">${o.l}</option>`).join('')}</select></td>`;
+      <td><input type="text" id="dn-${i}" placeholder="藥物名稱" value="${d.name}"></td>
+      <td><input type="text" id="dd-${i}" placeholder="劑量" value="${d.dose}"></td>
+      <td><select id="de-${i}">${EFFS.map(o=>`<option value="${o.v}"${o.v===d.eff?' selected':''}>${o.l}</option>`).join('')}</select></td>`;
     tb.appendChild(tr);
   }
 }
 
-// ── Save ──
-async function saveEntry() {
+// ── 載入紀錄到表單（編輯） ──
+function loadToForm(r){
+  pain={...r.pain};
+  syms={...r.symptoms};
+  aura={...r.aura};
+  other={...r.other};
+  document.getElementById('entry-date').value=r.date;
+  document.getElementById('entry-date').disabled=true; // 鎖定日期不讓改
+  document.getElementById('total-hours').value=r.hours||0;
+  document.getElementById('visit-neuro').checked=r.visit||false;
+  renderPainAll();
+  renderToggles('sym-grid',SYMS,syms);
+  renderToggles('aura-grid',AURAS,aura);
+  renderToggles('other-grid',OTHERS,other);
+  // 補齊 8 筆 drug
+  const drugs=[...Array(8)].map((_,i)=>r.drugs&&r.drugs[i]?r.drugs[i]:{name:i===0&&!r.drugs?.length?'EVE A錠':'',dose:'',eff:''});
+  renderDrugs(drugs);
+  isEditing=true;
+  document.getElementById('editing-bar').classList.add('show');
+  document.getElementById('editing-label').textContent='正在編輯 '+r.date;
+  document.getElementById('save-btn').innerHTML='<i class="ti ti-device-floppy"></i> 更新紀錄';
+  switchTab('entry');
+  window.scrollTo({top:0,behavior:'smooth'});
+}
+
+function cancelEdit(){
+  isEditing=false;
+  document.getElementById('editing-bar').classList.remove('show');
+  document.getElementById('entry-date').disabled=false;
+  // 重設表單
+  const d=new Date();
+  document.getElementById('entry-date').value=dstr(d);
+  pain={morning:0,afternoon:0,evening:0,sleep:0};
+  syms={};aura={};other={};
+  document.getElementById('total-hours').value=0;
+  document.getElementById('visit-neuro').checked=false;
+  renderPainAll();
+  renderToggles('sym-grid',SYMS,syms);
+  renderToggles('aura-grid',AURAS,aura);
+  renderToggles('other-grid',OTHERS,other);
+  renderDrugs();
+  document.getElementById('save-btn').innerHTML='<i class="ti ti-device-floppy"></i> 儲存今日紀錄';
+}
+
+async function saveEntry(){
   const date=document.getElementById('entry-date').value;
   if(!date){showToast('請選擇日期');return;}
   const btn=document.getElementById('save-btn');
-  btn.disabled=true; btn.innerHTML='<i class="ti ti-loader-2"></i> 儲存中…';
+  btn.disabled=true;btn.innerHTML='<i class="ti ti-loader-2"></i> 儲存中…';
+  setSync('syncing','同步中');
   const drugs=[...Array(8)].map((_,i)=>({
     name:document.getElementById('dn-'+i).value.trim(),
     dose:document.getElementById('dd-'+i).value.trim(),
@@ -423,64 +489,75 @@ async function saveEntry() {
   const data={pain:{...pain},hours:parseFloat(document.getElementById('total-hours').value)||0,
     visit:document.getElementById('visit-neuro').checked,
     symptoms:{...syms},aura:{...aura},other:{...other},drugs};
-  try {
+  try{
     await sb('/rest/v1/headache_records',{
       method:'POST',
       headers:{'Prefer':'resolution=merge-duplicates,return=representation'},
-      body:JSON.stringify({user_id:USER_ID, date, data})
+      body:JSON.stringify({user_id:USER_ID,date,data})
     });
     await loadRec();
-    renderHistory(); renderStats();
-    showToast('✓ 已儲存 '+date);
-  } catch(e) { showToast('儲存失敗：'+e.message); }
-  btn.disabled=false; btn.innerHTML='<i class="ti ti-device-floppy"></i> 儲存今日紀錄';
+    renderHistory();renderStats();
+    showToast(isEditing?'✓ 已更新 '+date:'✓ 已儲存 '+date);
+    if(isEditing) cancelEdit();
+  }catch(e){setSync('err','同步失敗');showToast('儲存失敗：'+e.message);}
+  btn.disabled=false;
+  btn.innerHTML=isEditing?'<i class="ti ti-device-floppy"></i> 更新紀錄':'<i class="ti ti-device-floppy"></i> 儲存今日紀錄';
 }
 
-// ── History ──
-function slabels(r) {
+function slabels(r){
   const all=[...SYMS,...AURAS,...OTHERS];
   return Object.entries({...r.symptoms,...r.aura,...r.other}).filter(([,v])=>v).map(([k])=>{const f=all.find(s=>s.key===k);return f?f.label:k;});
 }
-function renderHistory() {
+function renderHistory(){
   const q=(document.getElementById('search-input')?.value||'').toLowerCase();
   let list=allRec;
-  if(q) list=list.filter(r=>r.date.includes(q)||slabels(r).some(s=>s.includes(q)));
+  if(q)list=list.filter(r=>r.date.includes(q)||slabels(r).some(s=>s.includes(q)));
   const el=document.getElementById('history-list');
   if(!list.length){el.innerHTML='<div class="rec-empty">尚無紀錄</div>';return;}
   el.innerHTML='';
   list.forEach(r=>{
-    const mx=mpain(r.pain||{}); const sl=slabels(r);
-    const div=document.createElement('div'); div.className='rec';
+    const mx=mpain(r.pain||{});const sl=slabels(r);
+    const div=document.createElement('div');div.className='rec';
     div.innerHTML=`<div class="rec-hd">
       <span class="rec-date">${r.date}</span>
       <div class="rec-meta">
         ${r.visit?'<span class="badge bv">就診</span>':''}
         <span class="badge b${mx}">最高 ${mx} 級</span>
         <span style="font-size:12px;color:var(--text-faint)">${r.hours||0}h</span>
-        <button class="del-btn" onclick="delEntry('${r.date}',event)"><i class="ti ti-trash" aria-label="刪除"></i></button>
+        <div class="rec-actions">
+          <button class="edit-btn" onclick="editEntry('${r.date}',event)" title="編輯"><i class="ti ti-pencil" aria-label="編輯"></i></button>
+          <button class="del-btn" onclick="delEntry('${r.date}',event)" title="刪除"><i class="ti ti-trash" aria-label="刪除"></i></button>
+        </div>
       </div></div>
       ${sl.length?`<div class="stags">${sl.map(s=>`<span class="stag">${s}</span>`).join('')}</div>`:''}
       ${(r.drugs||[]).length?`<div class="drug-ln">💊 ${r.drugs.map(d=>d.name+(d.dose?' '+d.dose:'')).join('、')}</div>`:''}`;
     el.appendChild(div);
   });
 }
-async function delEntry(date,e) {
+
+function editEntry(date,e){
   e.stopPropagation();
-  if(!confirm('確定刪除 '+date+' 的紀錄？')) return;
-  try {
-    await sb('/rest/v1/headache_records?user_id=eq.'+USER_ID+'&date=eq.'+date,{method:'DELETE'});
-    await loadRec(); renderHistory(); renderStats(); renderCalendar();
-    showToast('已刪除');
-  } catch(e) { showToast('刪除失敗：'+e.message); }
+  const r=allRec.find(x=>x.date===date);
+  if(r) loadToForm(r);
 }
 
-// ── Calendar ──
+async function delEntry(date,e){
+  e.stopPropagation();
+  if(!confirm('確定刪除 '+date+' 的紀錄？'))return;
+  setSync('syncing','同步中');
+  try{
+    await sb('/rest/v1/headache_records?user_id=eq.'+USER_ID+'&date=eq.'+date,{method:'DELETE'});
+    await loadRec();renderHistory();renderStats();renderCalendar();
+    showToast('已刪除');
+  }catch(e){setSync('err','同步失敗');showToast('刪除失敗：'+e.message);}
+}
+
 function calPrev(){calM--;if(calM<0){calM=11;calY--;}renderCalendar();}
 function calNext(){calM++;if(calM>11){calM=0;calY++;}renderCalendar();}
-function renderCalendar() {
+function renderCalendar(){
   document.getElementById('cal-title').textContent=calY+'年 '+(calM+1)+'月';
-  const body=document.getElementById('cal-body'); body.innerHTML='';
-  const map={}; allRec.forEach(r=>map[r.date]=r);
+  const body=document.getElementById('cal-body');body.innerHTML='';
+  const map={};allRec.forEach(r=>map[r.date]=r);
   const first=new Date(calY,calM,1).getDay();
   const days=new Date(calY,calM+1,0).getDate();
   const today=dstr(new Date());
@@ -491,24 +568,23 @@ function renderCalendar() {
     const el=document.createElement('div');
     el.className='cd'+(rec?' pain-'+mpain(rec.pain||{}):'')+(ds===today?' today':'');
     el.textContent=d;
-    if(rec) el.title=`${ds} 最高:${mpain(rec.pain||{})}級 ${rec.hours||0}h`;
+    if(rec){el.title=`${ds} 最高:${mpain(rec.pain||{})}級 ${rec.hours||0}h`;el.style.cursor='pointer';el.onclick=()=>editEntry(ds,{stopPropagation:()=>{}});}
     body.appendChild(el);
   }
 }
 
-// ── Stats ──
-function renderStats() {
+function renderStats(){
   document.getElementById('s-days').textContent=allRec.length;
   document.getElementById('s-pain-days').textContent=allRec.filter(r=>mpain(r.pain||{})>0).length;
   document.getElementById('s-hours').textContent=allRec.reduce((s,r)=>s+(r.hours||0),0).toFixed(1);
   const all=[...SYMS,...AURAS,...OTHERS];
-  const sc={}; all.forEach(s=>sc[s.key]=0);
+  const sc={};all.forEach(s=>sc[s.key]=0);
   allRec.forEach(r=>Object.entries({...r.symptoms,...r.aura,...r.other}).forEach(([k,v])=>{if(v)sc[k]=(sc[k]||0)+1;}));
   barChart('sym-chart',all.map(s=>({label:s.label,count:sc[s.key]||0})).filter(s=>s.count>0).sort((a,b)=>b.count-a.count).slice(0,6));
-  const dc={}; allRec.forEach(r=>(r.drugs||[]).forEach(d=>{if(d.name)dc[d.name]=(dc[d.name]||0)+1;}));
+  const dc={};allRec.forEach(r=>(r.drugs||[]).forEach(d=>{if(d.name)dc[d.name]=(dc[d.name]||0)+1;}));
   barChart('drug-chart',Object.entries(dc).map(([l,c])=>({label:l,count:c})).sort((a,b)=>b.count-a.count).slice(0,5));
 }
-function barChart(id,data) {
+function barChart(id,data){
   const el=document.getElementById(id);
   if(!data.length){el.innerHTML='<div class="rec-empty" style="padding:.5rem">暫無資料</div>';return;}
   const mx=data[0].count;
@@ -518,13 +594,16 @@ function barChart(id,data) {
     <span class="bar-cnt">${d.count}</span></div>`).join('');
 }
 
-function showToast(msg) {
-  const t=document.getElementById('toast'); t.textContent=msg; t.classList.add('show');
+function showToast(msg){
+  const t=document.getElementById('toast');t.textContent=msg;t.classList.add('show');
   setTimeout(()=>t.classList.remove('show'),2500);
 }
 
-// 若已通過密碼，自動 init
-if(sessionStorage.getItem('hd_auth')==='1') init();
+if(sessionStorage.getItem('hd_auth')==='1'){
+  document.getElementById('pw-screen').style.display='none';
+  document.getElementById('main-screen').style.display='block';
+  init();
+}
 </script>
 </body>
 </html>
