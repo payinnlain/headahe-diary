@@ -465,12 +465,20 @@ function renderPainAll(){
 }
 function renderPain(id,k){
   const el=document.getElementById(id);el.innerHTML='';
-  for(let i=0;i<=3;i++){
+  for(let i=1;i<=3;i++){
     const b=document.createElement('button');
     b.className='pbtn'+(pain[k]===i?' s'+i:'');
     b.textContent=i;
     b.onclick=()=>{pain[k]=i;renderPain(id,k);};
     el.appendChild(b);
+  }
+  if(pain[k]>0){
+    const c=document.createElement('button');
+    c.className='pbtn';
+    c.innerHTML='<i class="ti ti-x" style="font-size:11px"></i>';
+    c.title='清除';
+    c.onclick=()=>{pain[k]=0;renderPain(id,k);};
+    el.appendChild(c);
   }
 }
 function renderToggles(gid,list,state){
