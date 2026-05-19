@@ -335,9 +335,9 @@ body{font-family:'Noto Sans TC',sans-serif;background:var(--bg);color:var(--text
         <div class="sc"><div class="sc-label">頭痛時數</div><div class="sc-val" id="s-hours" style="color:#7c3aed">0</div></div>
       </div>
     </div>
+    <button class="save-btn" style="background:#475569;margin-bottom:.875rem" onclick="exportPDF()"><i class="ti ti-file-type-pdf"></i> 匯出本月 PDF</button>
     <div class="card">
-      <div class="ct"><i class="ti ti-chart-bar"></i>症狀出現次數
-        <span style="font-size:11px;color:var(--text-faint);font-weight:400;margin-left:4px">點症狀查看日期</span>
+      <div class="ct"><i class="ti ti-chart-bar"></i>症狀出現次數<span style="font-size:11px;color:var(--text-faint);font-weight:400;margin-left:4px">點症狀查看日期</span>
       </div>
       <div id="sym-chart"></div>
     </div>
@@ -781,6 +781,110 @@ if(sessionStorage.getItem('hd_auth')==='1'){
   document.getElementById('main-screen').style.display='block';
   init();
 }
+// ── PDF 匯出 ──
+function exportPDF() {
+  const prefix = statY + '-' + String(statM+1).padStart(2,'0');
+  const monthRec = allRec.filter(r => r.date.startsWith(prefix));
+  const monthLabel = statY + '年 ' + (statM+1) + '月';
+
+  const painLabel = {morning:'早上', afternoon:'下午', evening:'晚上', sleep:'睡眠'};
+  const effLabel = {'':'','0':'沒效','1':'稍有效','2':'有效','3':'非常有效'};
+
+  let rows = '';
+  if (!monthRec.length) {
+    rows = '<tr><td colspan="5" style="text-align:center;color:#999;padding:16px">本月無記錄</td></tr>';
+  } else {
+    [...monthRec].sort((a,b)=>a.date.localeCompare(b.date)).forEach(r => {
+      const p = r.pain||{};
+      const painStr = Object.entries(p)
+        .filter(([,v])=>v>0)
+        .map(([k,v])=>`${painLabel[k]}:${v}`)
+        .join(' ') || '—';
+      const symList = Object.entries({...(r.symptoms||{}), ...(r.aura||{}), ...(r.other||{})})
+        .filter(([,v])=>v)
+        .map(([k])=>{ const f=[...SYMS,...AURAS,...OTHERS].find(s=>s.key===k); return f?f.label:k; })
+        .join('、') || '—';
+      const drugList = (r.drugs||[]).length
+        ? r.drugs.map(d=>d.name+(d.dose?' '+d.dose:'')+(d.eff?' ('+effLabel[d.eff]+')':'')).join('、')
+        : '—';
+      rows += `<tr>
+        <td>${r.date.slice(5)}</td>
+        <td>${painStr}</td>
+        <td>${r.hours||0} h</td>
+        <td style="font-size:11px">${symList}</td>
+        <td style="font-size:11px">${drugList}</td>
+      </tr>`;
+    });
+  }
+
+  const html = `<!DOCTYPE html><html><head><meta charset="UTF-8">
+  <title>頭痛日記 ${monthLabel}</title>
+  <style>
+    body{font-family:'Noto Sans TC',sans-serif;padding:24px;font-size:13px;color:#1a1a1a}
+    h1{font-size:18px;margin-bottom:4px}
+    h2{font-size:13px;color:#666;margin-bottom:16px;font-weight:400}
+    table{width:100%;border-collapse:collapse}
+    th{background:#f1f5f9;font-size:12px;padding:8px 6px;text-align:left;border-bottom:2px solid #cbd5e1}
+    td{padding:7px 6px;border-bottom:1px solid #e2e8f0;vertical-align:top}
+    tr:last-child td{border-bottom:none}
+  </style></head><body>
+  <h1>頭痛日記</h1>
+  <h2>${monthLabel} 記錄</h2>
+  <table>
+    <thead><tr>
+      <th style="width:60px">日期</th>
+      <th style="width:110px">頭痛程度</th>
+      <th style="width:50px">時數</th>
+      <th>症狀</th>
+      <th>用藥</th>
+    </tr></thead>
+    <tbody>${rows}</tbody>
+  </table>
+  <script>window.onload=()=>{window.print();}<\/script>
+  </body></html>`;
+
+  const w = window.open('', '_blank');
+  w.document.write(html);
+  w.document.close();
+}
+
+// ── PDF 匯出 ──
+function exportPDF() {
+  const prefix = statY + '-' + String(statM+1).padStart(2,'0');
+  const monthRec = allRec.filter(r => r.date.startsWith(prefix));
+  const monthLabel = statY + '年 ' + (statM+1) + '月';
+  const painLabel = {morning:'早上', afternoon:'下午', evening:'晚上', sleep:'睡眠'};
+  const effLabel = {'':'','0':'沒效','1':'稍有效','2':'有效','3':'非常有效'};
+  let rows = '';
+  if (!monthRec.length) {
+    rows = '<tr><td colspan="5" style="text-align:center;color:#999;padding:16px">本月無記錄</td></tr>';
+  } else {
+    [...monthRec].sort((a,b)=>a.date.localeCompare(b.date)).forEach(r => {
+      const p = r.pain||{};
+      const painStr = Object.entries(p).filter(([,v])=>v>0).map(([k,v])=>painLabel[k]+':'+v).join(' ') || '—';
+      const symList = Object.entries({...(r.symptoms||{}),...(r.aura||{}),...(r.other||{})})
+        .filter(([,v])=>v).map(([k])=>{ const f=[...SYMS,...AURAS,...OTHERS].find(s=>s.key===k); return f?f.label:k; }).join('、') || '—';
+      const drugList = (r.drugs||[]).length ? r.drugs.map(d=>d.name+(d.dose?' '+d.dose:'')+(d.eff?' ('+effLabel[d.eff]+')':'')).join('、') : '—';
+      rows += '<tr><td>'+r.date.slice(5)+'</td><td>'+painStr+'</td><td>'+(r.hours||0)+'h</td><td style="font-size:11px">'+symList+'</td><td style="font-size:11px">'+drugList+'</td></tr>';
+    });
+  }
+  const html = '<!DOCTYPE html><html><head><meta charset="UTF-8"><title>頭痛日記 '+monthLabel+'</title>'
+    + '<style>body{font-family:sans-serif;padding:24px;font-size:13px;color:#1a1a1a}'
+    + 'h1{font-size:18px;margin-bottom:4px}h2{font-size:13px;color:#666;margin-bottom:16px;font-weight:400}'
+    + 'table{width:100%;border-collapse:collapse}'
+    + 'th{background:#f1f5f9;font-size:12px;padding:8px 6px;text-align:left;border-bottom:2px solid #cbd5e1}'
+    + 'td{padding:7px 6px;border-bottom:1px solid #e2e8f0;vertical-align:top}'
+    + '</style></head><body>'
+    + '<h1>頭痛日記</h1><h2>'+monthLabel+' 記錄</h2>'
+    + '<table><thead><tr><th style="width:60px">日期</th><th style="width:110px">頭痛程度</th><th style="width:50px">時數</th><th>症狀</th><th>用藥</th></tr></thead>'
+    + '<tbody>'+rows+'</tbody></table>'
+    + '<script>window.onload=function(){window.print();}' + '<' + '/script>'
+    + '</body></html>';
+  const w = window.open('', '_blank');
+  w.document.write(html);
+  w.document.close();
+}
+
 </script>
 </body>
 </html>
