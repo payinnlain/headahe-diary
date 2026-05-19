@@ -250,7 +250,7 @@ body{font-family:'Noto Sans TC',sans-serif;background:var(--bg);color:var(--text
       </div>
       <div class="hours-row">
         <label for="total-hours">當日頭痛總時數</label>
-        <input type="text" id="total-hours" inputmode="numeric" value="0">
+        <input type="text" id="total-hours" inputmode="numeric" autocomplete="off" value="0">
         <span>小時</span>
       </div>
     </div>
@@ -509,7 +509,7 @@ function renderDrugRows(drugs){
         <input type="text" id="dc-${i}" placeholder="請輸入藥物名稱"
           style="display:${selectVal==='其他'?'block':'none'}" value="${customVal}">
       </div>
-      <input type="text" id="dd-${i}" placeholder="劑量" value="${d.dose||''}" inputmode="numeric">
+      <input type="text" id="dd-${i}" placeholder="劑量" value="${d.dose||''}" inputmode="numeric" autocomplete="off">
       <select id="de-${i}">${EFFS.map(o=>`<option value="${o.v}"${o.v===d.eff?' selected':''}>${o.l}</option>`).join('')}</select>`;
     container.appendChild(row);
   }
